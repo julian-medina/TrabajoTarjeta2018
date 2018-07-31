@@ -35,5 +35,7 @@ interface ColectivoInterface {
      *  suficiente en la tarjeta.
      */
     public function pagarCon(TarjetaInterface $tarjeta);
-
+/**
+@return BoletoInterface
+*/
 }
