@@ -6,7 +6,28 @@ use PHPUnit\Framework\TestCase;
 
 class ColectivoTest extends TestCase {
 
-    public function testAlgoUtil() {
-        $this->assertEquals(5+5, 10);
+/* Comprueba que se puede pagar si la tarjeta tiene saldo */
+
+    public function testPagarConTarjeta() {
+        $tarjeta = new Tarjeta;
+        $colectivo = new Colectivo;
+        $valor = 14.80;
+        $boleto = new Boleto($valor, $colectivo, $tarjeta);
+
+        $this->assertTrue($tarjeta->recargar(20));
+        $this->assertEquals($tarjeta->obtenerSaldo(), 20);
+
+        $this->assertEquals($colectivo->pagarCon($tarjeta)->obtenerColectivo(), $boleto->obtenerColectivo());
+    }
+
+    /* Comprueba que NO se puede pagar si la tarjeta no tiene saldo */
+
+    public function testPagarConTarjetaSinSaldo() {
+        $tarjeta = new Tarjeta;
+        $colectivo = new Colectivo;
+        $valor = 14.80;
+        $boleto = new Boleto($valor, $colectivo, $tarjeta);
+
+        $this->assertFalse($colectivo->pagarCon($tarjeta));
     }
 }

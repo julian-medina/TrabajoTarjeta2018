@@ -33,9 +33,11 @@ class Colectivo implements ColectivoInterface {
      */
     public function pagarCon(TarjetaInterface $tarjeta){
         $valor = 14.80;
-        $boleto = new Boleto($valor, $this, $tarjeta);
-        if($tarjeta->saldo >= $valor){
-            $tarjeta->saldo -= $valor;
+        
+        if($tarjeta->obtenerSaldo() >= $valor){
+            /*             $tarjeta->obtenerSaldo() -= $valor;      
+            no se puede modificar el saldo sin una funcion en clase Tarjeta*/
+            $boleto = new Boleto($valor, $this, $tarjeta);
             return $boleto;
         }
         else {
