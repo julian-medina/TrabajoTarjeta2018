@@ -27,7 +27,7 @@ class Boleto implements BoletoInterface {
      * @return ColectivoInterface
      */
     public function obtenerColectivo() {
-
+        return $this->colectivo;
     }
 
 }
