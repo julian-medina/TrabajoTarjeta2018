@@ -25,6 +25,10 @@ class Tarjeta implements TarjetaInterface {
 	 */
     public function obtenerSaldo() {
       	return $this->saldo;
-    }
+	}
+	
+	public function pagarVoleto($valor){
+		$this->saldo -= $valor;
+	}
 
 }
