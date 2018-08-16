@@ -17,14 +17,18 @@ class Tarjeta implements TarjetaInterface {
 		if($monto == 962.59)
 			$this->saldo += $monto + 221.58;
 
-		if($viajesPlus == 0){
-			$this->saldo -= $valor*2;
-			$viajesPlus = 2;		
+		if($this->viajesPlus == 0){
+			if($this->saldo >= $valor){
+				$this->saldo -= $valor;
+				$this->viajesPlus = 1;
+			}
 		}
 
-		if($viajesPlus == 1){
-			$this->saldo -= $valor;
-			$viajesPlus = 2;
+		if($this->viajesPlus == 1){
+			if($this->saldo >= $valor){
+				$this->saldo -= $valor;
+				$this->viajesPlus = 2;
+			}
 		}
 
       	return $monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100 || $monto == 510.15 || $monto == 962.59;
