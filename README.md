@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/urielman/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/urielman/TrabajoTarjeta2018)
+
 # Integrantes: Uriel Man y Julian Medina
 # Trabajo Tarjeta: Versión 2018
 
