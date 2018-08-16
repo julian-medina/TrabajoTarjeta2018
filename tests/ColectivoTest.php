@@ -20,6 +20,8 @@ class ColectivoTest extends TestCase {
         $this->assertEquals($colectivo->pagarCon($tarjeta)->obtenerColectivo(), $boleto->obtenerColectivo());
         /* Comprueba que se descuenta el dinero al pagar */
         $this->assertEquals($tarjeta->obtenerSaldo(), 20.0-$valor);
+
+        $this->assertEquals($tarjeta->obtenerViajesPlus(), 2);
     }
 
     /* Comprueba que NO se puede pagar si la tarjeta no tiene saldo */

@@ -5,7 +5,9 @@ namespace TrabajoTarjeta;
 class Tarjeta implements TarjetaInterface {
     protected $saldo;
 	protected $viajesPlus = 2;
+
     public function recargar($monto) {
+		$valor = 14.80;
 	// Esto estaba hecho mal a proposito.
 		if ($monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100) {
 			$this->saldo += $monto;
@@ -14,6 +16,16 @@ class Tarjeta implements TarjetaInterface {
 			$this->saldo += $monto + 81.93;
 		if($monto == 962.59)
 			$this->saldo += $monto + 221.58;
+
+		if($viajesPlus == 0){
+			$this->saldo -= $valor*2;
+			$viajesPlus = 2;		
+		}
+
+		if($viajesPlus == 1){
+			$this->saldo -= $valor;
+			$viajesPlus = 2;
+		}
 
       	return $monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100 || $monto == 510.15 || $monto == 962.59;
     }
