@@ -23,13 +23,20 @@ class ColectivoTest extends TestCase {
     }
 
     /* Comprueba que NO se puede pagar si la tarjeta no tiene saldo */
-
+    /* Valida que se pueden dar hasta 2 viajes plus */
     public function testPagarConTarjetaSinSaldo() {
         $tarjeta = new Tarjeta;
         $colectivo = new Colectivo;
         $valor = 14.80;
         $boleto = new Boleto($valor, $colectivo, $tarjeta);
 
+        $colectivo->pagarCon($tarjeta);
+        $this->assertEquals($tarjeta->obtenerViajesPlus(), 1);
+
+        $colectivo->pagarCon($tarjeta);
+        $this->assertEquals($tarjeta->obtenerViajesPlus(), 0);
+
+        $colectivo->pagarCon($tarjeta);
         $this->assertFalse($colectivo->pagarCon($tarjeta));
     }
 }

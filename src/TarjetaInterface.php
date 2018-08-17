@@ -24,4 +24,8 @@ interface TarjetaInterface {
 
     public function pagarVoleto($valor);
 
+    public function obtenerViajesPlus();
+
+    public function PagarViajesPlus();
+
 }
