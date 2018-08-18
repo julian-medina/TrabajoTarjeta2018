@@ -41,10 +41,15 @@ class ColectivoTest extends TestCase {
         $colectivo->pagarCon($tarjeta);
         $this->assertFalse($colectivo->pagarCon($tarjeta));
 
-        /* recargar los viajes plus */
+        /* el saldo es de 0, solo puede recargar 1 viaje plus */
+        $this->assertTrue($tarjeta->recargar(20));
+        $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.80);
+        $this->assertEquals($tarjeta->obtenerViajesPlus(), 1);
 
+        /* recargar los viajes plus */
         $this->assertTrue($tarjeta->recargar(30));
-        $this->assertEquals($tarjeta->obtenerSaldo(), 30-14.80*2);
+        $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.80*2+30);
         $this->assertEquals($tarjeta->obtenerViajesPlus(), 2);
+        
     }
 }
