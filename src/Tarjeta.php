@@ -56,3 +56,13 @@ class Tarjeta implements TarjetaInterface {
 	}
 
 }
+
+class MedioBoleto extends Tarjeta {
+	public function pagarVoleto($valor){
+		$this->saldo -= $valor/2;
+	}
+}
+
+class Jubilados extends Tarjeta {
+	public function pagarVoleto($valor){}
+}
