@@ -31,4 +31,17 @@ class TarjetaTest extends TestCase {
       $this->assertFalse($tarjeta->recargar(15));
       $this->assertEquals($tarjeta->obtenerSaldo(), 0);
   }
+
+  public function testFranquiciaCompletaSiemprePuedePagar() {
+    $tarjeta = new FranquiciaCompleta;
+    $colectivo = new Colectivo;
+    $valor = 14.80;
+    $boleto = new Boleto($valor, $colectivo, $tarjeta);
+
+    $this->assertEquals($tarjeta->obtenerSaldo(), 99);
+    $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
+    $this->assertEquals($tarjeta->obtenerSaldo(), 99);
+  }
+
+  
 }

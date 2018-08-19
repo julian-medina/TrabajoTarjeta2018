@@ -63,6 +63,7 @@ class MedioBoleto extends Tarjeta {
 	}
 }
 
-class Jubilados extends Tarjeta {
+class FranquiciaCompleta extends Tarjeta {
+	protected $saldo = 99;
 	public function pagarVoleto($valor){}
 }
