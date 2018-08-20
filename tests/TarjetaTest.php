@@ -50,10 +50,11 @@ class TarjetaTest extends TestCase {
     $valor = 14.80;
     $boleto = new Boleto($valor, $colectivo, $tarjeta);
 
+    $this->assertEquals(get_class($tarjeta),"TrabajoTarjeta\MedioBoleto");
     $this->assertEquals($tarjeta->obtenerSaldo(), 0);
     $this->assertTrue($tarjeta->recargar(20));
     $colectivo->pagarCon($tarjeta);
-    $this->assertEquals($tarjeta->obtenerSaldo(), 20-(14.8/2));
+    $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.8/2);
     $colectivo->pagarCon($tarjeta);
     $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.8);
 
