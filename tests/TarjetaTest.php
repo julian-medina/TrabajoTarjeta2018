@@ -31,4 +31,33 @@ class TarjetaTest extends TestCase {
       $this->assertFalse($tarjeta->recargar(15));
       $this->assertEquals($tarjeta->obtenerSaldo(), 0);
   }
+
+    /* FranquiciaCompleta siempre puede pagar un boleto */
+  public function testFranquiciaCompletaSiemprePuedePagar() {
+    $tarjeta = new FranquiciaCompleta;
+    $colectivo = new Colectivo;
+    $valor = 14.80;
+    $boleto = new Boleto($valor, $colectivo, $tarjeta);
+
+    $this->assertEquals($tarjeta->obtenerSaldo(), 99);
+    $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
+    $this->assertEquals($tarjeta->obtenerSaldo(), 99);
+  }
+    /* el monto del boleto pagado con medio boleto es siempre la mitad del normal. */
+  public function testMedioBoleto() {
+    $tarjeta = new MedioBoleto;
+    $colectivo = new Colectivo;
+    $valor = 14.80;
+    $boleto = new Boleto($valor, $colectivo, $tarjeta);
+
+    $this->assertEquals(get_class($tarjeta),"TrabajoTarjeta\MedioBoleto");
+    $this->assertEquals($tarjeta->obtenerSaldo(), 0);
+    $this->assertTrue($tarjeta->recargar(20));
+    $colectivo->pagarCon($tarjeta);
+    $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.8/2);
+    $colectivo->pagarCon($tarjeta);
+    $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.8);
+
+  }
+
 }

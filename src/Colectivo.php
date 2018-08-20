@@ -33,20 +33,23 @@ class Colectivo implements ColectivoInterface {
      */
     public function pagarCon(TarjetaInterface $tarjeta){
         $valor = 14.80;
-        
+
+        if(get_class($tarjeta) === "TrabajoTarjeta\MedioBoleto"){
+            $valor /= 2;
+        }
+
         if($tarjeta->obtenerSaldo() >= $valor){
             $tarjeta->pagarVoleto($valor);
             $boleto = new Boleto($valor, $this, $tarjeta);
             return $boleto;
-        }else{
-            if($tarjeta->obtenerViajesPlus() == 2 || $tarjeta->obtenerViajesPlus() == 1){
-                $tarjeta->PagarViajesPlus();
-                $boleto = new Boleto($valor, $this, $tarjeta);
-                return $boleto;
-            }else {
-                return False;
-            }
         }
-    }
 
+        if($tarjeta->obtenerViajesPlus() == 2 || $tarjeta->obtenerViajesPlus() == 1){
+            $tarjeta->PagarViajesPlus();
+            $boleto = new Boleto($valor, $this, $tarjeta);
+            return $boleto;
+        }
+
+        return False;  
+    }
 }

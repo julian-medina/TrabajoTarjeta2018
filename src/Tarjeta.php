@@ -3,7 +3,7 @@
 namespace TrabajoTarjeta;
 
 class Tarjeta implements TarjetaInterface {
-    protected $saldo;
+    protected $saldo = 0;
 	protected $viajesPlus = 2;
 
     public function recargar($monto) {
@@ -55,4 +55,11 @@ class Tarjeta implements TarjetaInterface {
 		$this->viajesPlus -= 1;
 	}
 
+}
+
+class MedioBoleto extends Tarjeta {}
+
+class FranquiciaCompleta extends Tarjeta {
+	protected $saldo = 99;
+	public function pagarVoleto($valor){}
 }
