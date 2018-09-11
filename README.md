@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/urielman/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/urielman/TrabajoTarjeta2018)
-
-[![Coverage Status](https://coveralls.io/repos/github/urielman/TrabajoTarjeta2018/badge.svg?branch=master)](https://coveralls.io/github/urielman/TrabajoTarjeta2018?branch=master)
+[![Build Status](https://travis-ci.org/urielman/TrabajoTarjeta2018.svg?branch=master)](https://travis-ci.org/urielman/TrabajoTarjeta2018) [![Coverage Status](https://coveralls.io/repos/github/urielman/TrabajoTarjeta2018/badge.svg?branch=master)](https://coveralls.io/github/urielman/TrabajoTarjeta2018?branch=master)
 
 # Integrantes: Uriel Man y Julian Medina.
 # Trabajo Tarjeta: Versión 2018
