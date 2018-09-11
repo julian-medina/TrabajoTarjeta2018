@@ -10,6 +10,12 @@ class Colectivo implements ColectivoInterface {
 
     protected $numero;
 
+    public function __construct($linea, $empresa, $numero){
+        $this->linea = $linea;
+        $this->empresa = $empresa;
+        $this->numero = $numero;
+    }
+    
     public function linea(){
         return $this->linea;
     }
@@ -33,7 +39,7 @@ class Colectivo implements ColectivoInterface {
      */
     public function pagarCon(TarjetaInterface $tarjeta){
         $valor = 14.80;
-
+/*
         if(get_class($tarjeta) === "TrabajoTarjeta\MedioBoleto"){
             $valor /= 2;
         }
@@ -49,7 +55,15 @@ class Colectivo implements ColectivoInterface {
             $boleto = new Boleto($valor, $this, $tarjeta);
             return $boleto;
         }
-
+*/
+        $valor_boleto = $tarjeta->obtenerValorBoleto();
+        $viajesPlusUsados = $tarjeta->obtenerViajesPlusUsados();
+        if($tarjeta->pagar()){
+            $boleto = new Boleto($valor_boleto, $this, $tarjeta, date("d/m/y H:i", time()),
+            get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(),
+            $viajesPlusUsados-$tarjeta->obtenerViajesPlusUsados());
+            return $boleto;
+        }
         return False;  
     }
 }
