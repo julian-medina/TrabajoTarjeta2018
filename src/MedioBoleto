@@ -1,0 +1,6 @@
+<?php
+
+namespace TrabajoTarjeta;
+
+/* agregamos aca implements TarjetaInterface ?? */
+class MedioBoleto extends Tarjeta {}
