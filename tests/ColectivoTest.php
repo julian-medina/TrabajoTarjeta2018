@@ -10,8 +10,8 @@ class ColectivoTest extends TestCase {
 
     public function testPagarConTarjeta() {
         $tarjeta = new Tarjeta;
-        $linea = 144;
-        $empresa = Auckland; 
+        $linea = "144 N";
+        $empresa = "auckland"; 
         $numero = 2;
         $colectivo = new Colectivo($linea, $empresa, $numero);
         $valor = 14.80;
@@ -31,8 +31,8 @@ class ColectivoTest extends TestCase {
     /* Valida que se pueden dar hasta 2 viajes plus */
     public function testPagarConTarjetaSinSaldo() {
         $tarjeta = new Tarjeta;
-        $linea = 144;
-        $empresa = Auckland; 
+        $linea = "144 N";
+        $empresa = 'Auckland'; 
         $numero = 2;
         $colectivo = new Colectivo($linea, $empresa, $numero);
 

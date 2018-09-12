@@ -36,7 +36,7 @@ class TarjetaTest extends TestCase {
   public function testFranquiciaCompletaSiemprePuedePagar() {
     $tarjeta = new FranquiciaCompleta;
     $linea = 144;
-    $empresa = Auckland; 
+    $empresa = 'auckland'; 
     $numero = 2;
     $colectivo = new Colectivo($linea, $empresa, $numero);
 
@@ -51,7 +51,7 @@ class TarjetaTest extends TestCase {
   public function testMedioBoleto() {
     $tarjeta = new MedioBoleto;
     $linea = 144;
-    $empresa = Auckland; 
+    $empresa = "auckland"; 
     $numero = 2;
     $colectivo = new Colectivo($linea, $empresa, $numero);
     $valor = 14.80;
