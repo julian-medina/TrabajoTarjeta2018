@@ -22,7 +22,7 @@ interface TarjetaInterface {
      */
     public function obtenerSaldo();
 
-    protected function pagarBoleto($valor);
+    public function pagarBoleto($valor);
 
     public function obtenerViajesPlus();
 
