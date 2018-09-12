@@ -38,18 +38,17 @@ class Colectivo implements ColectivoInterface {
      *  suficiente en la tarjeta.
      */
     public function pagarCon(TarjetaInterface $tarjeta){
-        $valor = 14.80;
 
         return $tarjeta->pagoBoleto($this);
 
 
-        $viajesPlusUsados = $tarjeta->obtenerViajesPlusUsados();
+/*         $viajesPlusUsados = $tarjeta->obtenerViajesPlusUsados();
         if($tarjeta->pagar()){
             $boleto = new Boleto($valor_boleto, $this, $tarjeta, date("d/m/y H:i", time()),
             get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(),
             $viajesPlusUsados-$tarjeta->obtenerViajesPlusUsados());
             return $boleto;
-        }
-        return False;  
+        }  */
+
     }
 }
