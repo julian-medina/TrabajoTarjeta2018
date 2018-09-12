@@ -35,7 +35,11 @@ class TarjetaTest extends TestCase {
     /* FranquiciaCompleta siempre puede pagar un boleto */
   public function testFranquiciaCompletaSiemprePuedePagar() {
     $tarjeta = new FranquiciaCompleta;
-    $colectivo = new Colectivo;
+    $linea = 144;
+    $empresa = Auckland; 
+    $numero = 2;
+    $colectivo = new Colectivo($linea, $empresa, $numero);
+
     $valor = 14.80;
     $boleto = new Boleto($valor, $colectivo, $tarjeta);
 
@@ -46,7 +50,10 @@ class TarjetaTest extends TestCase {
     /* el monto del boleto pagado con medio boleto es siempre la mitad del normal. */
   public function testMedioBoleto() {
     $tarjeta = new MedioBoleto;
-    $colectivo = new Colectivo;
+    $linea = 144;
+    $empresa = Auckland; 
+    $numero = 2;
+    $colectivo = new Colectivo($linea, $empresa, $numero);
     $valor = 14.80;
     $boleto = new Boleto($valor, $colectivo, $tarjeta);
 
