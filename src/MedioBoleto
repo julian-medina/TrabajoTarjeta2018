@@ -4,7 +4,7 @@ namespace TrabajoTarjeta;
 
 /* agregamos aca implements TarjetaInterface ?? */
 class MedioBoleto extends Tarjeta {
-    public function pagarVoleto($valor){
+    public function pagarBoleto($valor){
         $this->saldo -= $valor/2;
     }
 }
