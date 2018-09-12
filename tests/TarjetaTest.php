@@ -40,12 +40,12 @@ class TarjetaTest extends TestCase {
     $numero = 2;
     $colectivo = new Colectivo($linea, $empresa, $numero);
 
-    $valor = 14.80;
-    $boleto = new Boleto($valor, $colectivo, $tarjeta);
+   
+    $boleto = new Boleto($tarjeta->$valor, $colectivo, $tarjeta);
 
-    $this->assertEquals($tarjeta->obtenerSaldo(), 99);
+    $this->assertEquals($tarjeta->obtenerSaldo(), 0;
     $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
-    $this->assertEquals($tarjeta->obtenerSaldo(), 99);
+    $this->assertEquals($tarjeta->obtenerSaldo(), 0);
   }
     /* el monto del boleto pagado con medio boleto es siempre la mitad del normal. */
   public function testMedioBoleto() {
