@@ -39,7 +39,27 @@ class Colectivo implements ColectivoInterface {
      */
     public function pagarCon(TarjetaInterface $tarjeta){
 
-        return $tarjeta->pagoBoleto($this);
+        if($tarjeta->pagoBoleto()){
+            $valor = $tarjeta->valorBoleto();
+            $fecha = NULL;
+            $tipoTarjeta = NULL;
+            $saldo = NULL;
+            $id = NULL;
+
+            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, 0);
+            return $boleto;
+        }
+
+        if($tarjeta->pagoBoletoConPlus()){
+            $valor = $tarjeta->valorBoleto();
+            $fecha = NULL;
+            $tipoTarjeta = NULL;
+            $saldo = NULL;
+            $id = NULL;
+            
+            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, 0);
+            return $boleto;
+        }
 
 
 /*         $viajesPlusUsados = $tarjeta->obtenerViajesPlusUsados();
@@ -49,6 +69,6 @@ class Colectivo implements ColectivoInterface {
             $viajesPlusUsados-$tarjeta->obtenerViajesPlusUsados());
             return $boleto;
         }  */
-
+        return FALSE;
     }
 }

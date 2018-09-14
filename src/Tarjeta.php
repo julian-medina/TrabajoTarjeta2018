@@ -6,7 +6,7 @@ class Tarjeta implements TarjetaInterface {
 	protected $saldo = 0;
 	protected $viajesPlus = 2;
 	protected $valor = 14.80;
-
+	protected $viajesPlusAbonados = 0;
     public function recargar($monto) {
 
 	// Esto estaba hecho mal a proposito.
@@ -59,20 +59,24 @@ class Tarjeta implements TarjetaInterface {
 		return $this->valor;
 	}
 
-	public function pagoBoleto($colectivo) {
+	public function valorBoletoCompleto(){
+		return $this->valor;
+	}
+
+	public function pagoBoleto() {
 
 		if($this->obtenerSaldo() >= $this->valorBoleto()){
             $this->pagarBoleto();
-            $boleto = new Boleto($this->valorBoleto(), $colectivo, $this);
-            return $boleto;
-        }
+			return TRUE;
+		}
+		return FALSE;
+	}
 
+	public function pagoBoletoConPlus() {
         if($this->obtenerViajesPlus() == 2 || $this->obtenerViajesPlus() == 1){
             $this->PagarViajesPlus();
-            $boleto = new Boleto($this->valor, $colectivo, $this);
-            return $boleto;
+            return TRUE;
 		}
-
 		return False;
 	}
 

@@ -15,7 +15,7 @@ class ColectivoTest extends TestCase {
         $numero = 2;
         $colectivo = new Colectivo($linea, $empresa, $numero);
         $valor = 14.80;
-        $boleto = new Boleto($valor, $colectivo, $tarjeta);
+        $boleto = new Boleto($valor, $colectivo, $tarjeta, NULL, NULL, NULL, NULL, NULL);
 
         $this->assertTrue($tarjeta->recargar(20));
         $this->assertEquals($tarjeta->obtenerSaldo(), 20.0);
@@ -37,7 +37,7 @@ class ColectivoTest extends TestCase {
         $colectivo = new Colectivo($linea, $empresa, $numero);
 
         $valor = 14.80;
-        $boleto = new Boleto($valor, $colectivo, $tarjeta);
+        $boleto = new Boleto($valor, $colectivo, $tarjeta, NULL, NULL, NULL, NULL, NULL);
 
         $colectivo->pagarCon($tarjeta);
         $this->assertEquals($tarjeta->obtenerViajesPlus(), 1);
