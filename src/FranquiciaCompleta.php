@@ -6,7 +6,7 @@ namespace TrabajoTarjeta;
 class FranquiciaCompleta extends Tarjeta implements TarjetaInterface{
 
 	public function pagoBoleto($colectivo){
-        $boleto = new Boleto($this->$valor, $colectivo, $this);
+        $boleto = new Boleto($this->valor, $colectivo, $this);
         return $boleto;
     }
 }

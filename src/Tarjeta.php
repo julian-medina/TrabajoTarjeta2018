@@ -19,15 +19,15 @@ class Tarjeta implements TarjetaInterface {
 			$this->saldo += $monto + 221.58;
 
 		if($this->viajesPlus == 0){
-			if($this->saldo >= $this->$valor){
-				$this->saldo -= $this->$valor;
+			if($this->saldo >= $this->valor){
+				$this->saldo -= $this->valor;
 				$this->viajesPlus = 1;
 			}
 		}
 
 		if($this->viajesPlus == 1){
-			if($this->saldo >= $this->$valor){
-				$this->saldo -= $this->$valor;
+			if($this->saldo >= $this->valor){
+				$this->saldo -= $this->valor;
 				$this->viajesPlus = 2;
 			}
 		}
@@ -45,7 +45,7 @@ class Tarjeta implements TarjetaInterface {
 	}
 	
 	public function pagarBoleto(){
-		$this->saldo -= $this->$valor;
+		$this->saldo -= $this->valor;
 	}
 
 	public function obtenerViajesPlus() {
@@ -58,15 +58,15 @@ class Tarjeta implements TarjetaInterface {
 
 	public function pagoBoleto($colectivo) {
 
-		if($this->obtenerSaldo() >= $this->$valor){
+		if($this->obtenerSaldo() >= $this->valor){
             $this->pagarBoleto();
-            $boleto = new Boleto($this->$valor, $colectivo, $this);
+            $boleto = new Boleto($this->valor, $colectivo, $this);
             return $boleto;
         }
 
         if($this->obtenerViajesPlus() == 2 || $this->obtenerViajesPlus() == 1){
             $this->PagarViajesPlus();
-            $boleto = new Boleto($this->$valor, $colectivo, $this);
+            $boleto = new Boleto($this->valor, $colectivo, $this);
             return $boleto;
 		}
 
