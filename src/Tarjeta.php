@@ -20,11 +20,16 @@ class Tarjeta implements TarjetaInterface {
 		if ($monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100) {
 			$this->saldo += $monto;
 		}
+
 		if($monto == 510.15)
 			$this->saldo += $monto + 81.93;
+
 		if($monto == 962.59)
 			$this->saldo += $monto + 221.58;
 
+/* 
+borrar los siguientes dos ifs cuando se cambie el metodo de pago de los viajes plus al colectivo.
+*/
 		if($this->viajesPlus == 0){
 			if($this->saldo >= $this->valor){
 				$this->saldo -= $this->valor;
@@ -40,7 +45,30 @@ class Tarjeta implements TarjetaInterface {
 		}
 
       	return $monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100 || $monto == 510.15 || $monto == 962.59;
-    }
+	}
+	
+	public function abonaViajesPlus(){
+
+		if($this->viajesPlus == 0){
+			if($this->saldo >= $this->valor*2){
+				$this->saldo -= $this->valor*2;
+				$this->viajesPlus = 2;
+				return TRUE;
+			}
+			return FALSE;
+		}
+
+		if($this->viajesPlus == 1){
+			if($this->saldo >= $this->valor){
+				$this->saldo -= $this->valor;
+				$this->viajesPlus = 2;
+				return TRUE;
+			}
+			return FALSE;
+		}
+		
+		return TRUE;
+	}
 
     /**
 	 * Devuelve el saldo que le queda a la tarjeta.

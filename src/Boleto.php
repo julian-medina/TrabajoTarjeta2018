@@ -18,7 +18,8 @@ class Boleto implements BoletoInterface {
 
     protected $id;
 
-    protected $viajesPlus;
+    //tipo de boleto (Normal, Viaje Plus)
+    protected $tipoBoleto;
 
     public function __construct($valor, $colectivo, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados) {
         $this->valor = $valor;
@@ -28,19 +29,20 @@ class Boleto implements BoletoInterface {
         $this->tipoTarjeta = $tipoTarjeta;
         $this->saldo = $saldo;
         $this->id = $id;
-        $this->viajesPlus = $this->mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta);
+        $this->tipoBoleto = $this->mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta);
     }
 
-    public function mostrarViajePlusEnBoleto($viajesPlus, $tarjeta){
-        if($viajesPlus>0){
-            return "ABONA VIAJES PLUS: ".$viajesPlus*$tarjeta->valorBoletoCompleto();
+    //asigna el tipo de boleto (Normal, Viaje Plus) o si se abonaron Viajes Plus
+    public function mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta){
+        if($viajesPlusAbonados>0){
+            return "ABONA VIAJES PLUS: ".$viajesPlusAbonados*$tarjeta->valorBoletoCompleto();
         }
 
-        if($viajesPlus==0){
-            return "";
+        if($viajesPlusAbonados==0){
+            return "NORMAL";
         }
 
-        if($viajesPlus==-1){
+        if($viajesPlusAbonados==-1){
             return "VIAJE PLUS";
         }
 
