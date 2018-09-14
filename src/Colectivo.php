@@ -56,8 +56,8 @@ class Colectivo implements ColectivoInterface {
             $tipoTarjeta = NULL;
             $saldo = NULL;
             $id = NULL;
-            
-            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, 0);
+            $viajesPlusAbonados = NULL;
+            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados);
             return $boleto;
         }
 

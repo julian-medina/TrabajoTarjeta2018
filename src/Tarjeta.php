@@ -7,9 +7,16 @@ class Tarjeta implements TarjetaInterface {
 	protected $viajesPlus = 2;
 	protected $valor = 14.80;
 	protected $viajesPlusAbonados = 0;
+	protected $tiempo;
+	protected $id;
+
+	public function __construct(TiempoInterface $tiempo, $id){
+		$this->tiempo=$tiempo;
+		$this->id = $id;
+	  }
+
     public function recargar($monto) {
 
-	// Esto estaba hecho mal a proposito.
 		if ($monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100) {
 			$this->saldo += $monto;
 		}
