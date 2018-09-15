@@ -45,33 +45,10 @@ class Tarjeta implements TarjetaInterface {
 		}
 	    	else if($this->viajesPlus == 2){
 			$this->viajesPlusAbonados = 0;
-
+			}
       	return $monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100 || $monto == 510.15 || $monto == 962.59;
 	}
 	
-	/**public function abonaViajesPlus(){
-
-		if($this->viajesPlus == 0){
-			if($this->saldo >= $this->valor*2){
-				$this->saldo -= $this->valor*2;
-				$this->viajesPlus = 2;
-				return TRUE;
-			}
-			return FALSE;
-		}
-
-		if($this->viajesPlus == 1){
-			if($this->saldo >= $this->valor){
-				$this->saldo -= $this->valor;
-				$this->viajesPlus = 2;
-				return TRUE;
-			}
-			return FALSE;
-		}
-		
-		return TRUE;
-	}
-	*/
     /**
 	 * Devuelve el saldo que le queda a la tarjeta.
 	 *
@@ -80,24 +57,45 @@ class Tarjeta implements TarjetaInterface {
     public function obtenerSaldo() {
       	return $this->saldo;
 	}
+
+	public function obtenerId() {
+		return $this->id;
+  }
 	
-	public function pagarBoleto(){
-		$this->saldo -= $this->valorBoleto();
+  public function obtenerViajesPlus() {
+		return $this->viajesPlus;
 	}
 
-	public function obtenerViajesPlus() {
-		return $this->viajesPlus;
-  	}
+	public function obtenerViajesPlusAbonados() {
+		return $this->viajesPlusAbonados;
+	}
+	
+	public function reiniciarViajesPlusAbonados() {
+		if($this->viajesPlusAbonados != 0)
+			$this->viajesPlusAbonados = 0;
+	}
 
- 	public function PagarViajesPlus() {
+	public function primerPlusUsado() {
+		$this->viajesPlusAbonados = -1;
+	}
+
+	public function ultimoPlusUsado() {
+		$this->viajesPlusAbonados = -2;
+	}
+
+	public function pagarViajesPlus() {
 		$this->viajesPlus -= 1;
 	}
 	public function valorBoleto(){
 		return $this->valor;
 	}
-
+	
 	public function valorBoletoCompleto(){
 		return $this->valor;
+	}
+	
+	public function pagarBoleto(){
+		$this->saldo -= $this->valorBoleto();
 	}
 
 	public function pagoBoleto() {
@@ -110,10 +108,22 @@ class Tarjeta implements TarjetaInterface {
 	}
 
 	public function pagoBoletoConPlus() {
-        if($this->obtenerViajesPlus() == 2 || $this->obtenerViajesPlus() == 1){
-            $this->PagarViajesPlus();
+		if($this->obtenerViajesPlus() == 2){
+			$this->pagarViajesPlus();
+
+			$this->primerPlusUsado();
+			
             return TRUE;
 		}
+
+		if($this->obtenerViajesPlus() == 1){
+			$this->pagarViajesPlus();
+			
+			$this->ultimoPlusUsado();
+
+            return TRUE;
+		}
+
 		return False;
 	}
 

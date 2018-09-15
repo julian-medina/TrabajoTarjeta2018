@@ -26,6 +26,6 @@ interface TarjetaInterface {
 
     public function obtenerViajesPlus();
 
-    public function PagarViajesPlus();
+    public function pagarViajesPlus();
 
 }

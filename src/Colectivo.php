@@ -40,35 +40,35 @@ class Colectivo implements ColectivoInterface {
     public function pagarCon(TarjetaInterface $tarjeta){
 
         if($tarjeta->pagoBoleto()){
-            $valor = $tarjeta->valorBoleto();
-            $fecha = NULL;
-            $tipoTarjeta = NULL;
-            $saldo = NULL;
-            $id = NULL;
 
-            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, 0);
+            $valor = $tarjeta->valorBoleto();
+            $fecha = date("d/m/y H:i", time());
+            $tipoTarjeta = get_class($tarjeta);
+            $saldo = $tarjeta->obtenerSaldo();
+            $id = $tarjeta->obtenerId();
+            $viajesPlusAbonados = $tarjeta->obtenerViajesPlusAbonados();
+
+            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados);
+
+            $tarjeta->reiniciarViajesPlusAbonados();
+
             return $boleto;
         }
 
         if($tarjeta->pagoBoletoConPlus()){
+
             $valor = $tarjeta->valorBoleto();
-            $fecha = NULL;
-            $tipoTarjeta = NULL;
-            $saldo = NULL;
-            $id = NULL;
-            $viajesPlusAbonados = NULL;
+            $fecha = date("d/m/y H:i", time());
+            $tipoTarjeta = get_class($tarjeta);
+            $saldo = $tarjeta->obtenerSaldo();
+            $id = $tarjeta->obtenerId();
+            $viajesPlusAbonados = $tarjeta->obtenerViajesPlusAbonados();
+
             $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados);
+
             return $boleto;
         }
 
-
-/*         $viajesPlusUsados = $tarjeta->obtenerViajesPlusUsados();
-        if($tarjeta->pagar()){
-            $boleto = new Boleto($valor_boleto, $this, $tarjeta, date("d/m/y H:i", time()),
-            get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(),
-            $viajesPlusUsados-$tarjeta->obtenerViajesPlusUsados());
-            return $boleto;
-        }  */
         return FALSE;
     }
 }

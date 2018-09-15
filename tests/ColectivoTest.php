@@ -9,7 +9,8 @@ class ColectivoTest extends TestCase {
 /* Comprueba que se puede pagar si la tarjeta tiene saldo */
 
     public function testPagarConTarjeta() {
-        $tarjeta = new Tarjeta;
+        $tiempo = new TiempoFalso();
+        $tarjeta = new Tarjeta($tiempo, "123456");
         $linea = "144 N";
         $empresa = "auckland"; 
         $numero = 2;
@@ -30,7 +31,8 @@ class ColectivoTest extends TestCase {
     /* Comprueba que NO se puede pagar si la tarjeta no tiene saldo */
     /* Valida que se pueden dar hasta 2 viajes plus */
     public function testPagarConTarjetaSinSaldo() {
-        $tarjeta = new Tarjeta;
+        $tiempo = new TiempoFalso();
+        $tarjeta = new Tarjeta($tiempo, "123456");
         $linea = "144 N";
         $empresa = 'Auckland'; 
         $numero = 2;
