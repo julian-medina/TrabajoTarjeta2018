@@ -35,6 +35,7 @@ class ColectivoTest extends TestCase {
 
     /* Comprueba que NO se puede pagar si la tarjeta no tiene saldo */
     /* Valida que se pueden dar hasta 2 viajes plus */
+    /* Comprueba que devuelve el tipo de boleto correcto (plus abonados, usado, o viaje normal) */
     public function testPagarConTarjetaSinSaldo() {
         $tiempo = new TiempoFalso();
         $tarjeta = new Tarjeta($tiempo, "123456");

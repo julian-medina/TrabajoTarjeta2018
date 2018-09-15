@@ -11,7 +11,10 @@ class BoletoTest extends TestCase {
         $id = "123456";
         $tarjeta = new Tarjeta($tiempo, $id);
     
-        $colectivo = new Colectivo(NULL, NULL, NULL);
+        $linea = "144 N";
+        $empresa = 'Auckland'; 
+        $numero = 2;
+        $colectivo = new Colectivo($linea, $empresa, $numero);
             
         $boleto = new Boleto($tarjeta->valorBoleto(), $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), 0);
         
@@ -22,5 +25,6 @@ class BoletoTest extends TestCase {
         $this->assertEquals($boleto->obtenerTipoTarjeta(), get_class($tarjeta));
         $this->assertEquals($boleto->obtenerSaldo(), $tarjeta->obtenerSaldo());
         $this->assertEquals($boleto->obtenerId(), $tarjeta->obtenerId());
+        $this->assertEquals($boleto->obtenerLineaColectivo(), $linea);
     }
 }
