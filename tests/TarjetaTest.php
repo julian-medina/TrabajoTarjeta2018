@@ -49,7 +49,8 @@ class TarjetaTest extends TestCase {
     $this->assertEquals($tarjeta->obtenerSaldo(), 0);
   }
     /* el monto del boleto pagado con medio boleto es siempre la mitad del normal. */
-  public function testMedioBoleto() {
+  
+    public function testMedioBoleto() {
     $tiempo = new TiempoFalso();
     $tarjeta = new MedioBoleto($tiempo, "123456");
     $linea = 144;

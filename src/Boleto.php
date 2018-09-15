@@ -82,4 +82,9 @@ class Boleto implements BoletoInterface {
     public function obtenerId() {
         return $this->id;
     }
+
+    public function obtenerTipoBoleto() {
+        return $this->tipoBoleto;
+    }
+
 }

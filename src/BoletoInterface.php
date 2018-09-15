@@ -18,4 +18,6 @@ interface BoletoInterface {
      */
     public function obtenerColectivo();
 
+    public function obtenerTipoBoleto();
+
 }

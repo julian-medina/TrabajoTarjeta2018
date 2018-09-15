@@ -66,6 +66,8 @@ class Colectivo implements ColectivoInterface {
 
             $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados);
 
+            $tarjeta->reiniciarViajesPlusAbonados();
+            
             return $boleto;
         }
 

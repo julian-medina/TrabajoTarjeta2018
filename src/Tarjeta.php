@@ -43,9 +43,7 @@ class Tarjeta implements TarjetaInterface {
 				$this->viajesPlusAbonados += 1;
 			}
 		}
-	    	else if($this->viajesPlus == 2){
-			$this->viajesPlusAbonados = 0;
-			}
+
       	return $monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100 || $monto == 510.15 || $monto == 962.59;
 	}
 	
