@@ -35,7 +35,10 @@ class Boleto implements BoletoInterface {
     //asigna el tipo de boleto (Normal, Viaje Plus) o si se abonaron Viajes Plus
     public function mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta){
         if($viajesPlusAbonados>0){
-            return "ABONA VIAJES PLUS: ".$viajesPlusAbonados*$tarjeta->valorBoletoCompleto();
+            $valorPlus = $viajesPlusAbonados*$tarjeta->valorBoletoCompleto();
+            $totalAbonado = $valorPlus + $this->valor;
+            
+            return "ABONA VIAJES PLUS: $".$valorPlus."\nTOTAL ABONADO: $".$totalAbonado;
         }
 
         if($viajesPlusAbonados==0){
