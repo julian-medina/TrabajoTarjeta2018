@@ -39,16 +39,38 @@ class Colectivo implements ColectivoInterface {
      */
     public function pagarCon(TarjetaInterface $tarjeta){
 
-        return $tarjeta->pagoBoleto($this);
+        if($tarjeta->pagoBoleto()){
 
+            $valor = $tarjeta->valorBoleto();
+            $fecha = date("d/m/y H:i", time());
+            $tipoTarjeta = get_class($tarjeta);
+            $saldo = $tarjeta->obtenerSaldo();
+            $id = $tarjeta->obtenerId();
+            $viajesPlusAbonados = $tarjeta->obtenerViajesPlusAbonados();
 
-/*         $viajesPlusUsados = $tarjeta->obtenerViajesPlusUsados();
-        if($tarjeta->pagar()){
-            $boleto = new Boleto($valor_boleto, $this, $tarjeta, date("d/m/y H:i", time()),
-            get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(),
-            $viajesPlusUsados-$tarjeta->obtenerViajesPlusUsados());
+            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados);
+
+            $tarjeta->reiniciarViajesPlusAbonados();
+
             return $boleto;
-        }  */
+        }
 
+        if($tarjeta->pagoBoletoConPlus()){
+
+            $valor = $tarjeta->valorBoleto();
+            $fecha = date("d/m/y H:i", time());
+            $tipoTarjeta = get_class($tarjeta);
+            $saldo = $tarjeta->obtenerSaldo();
+            $id = $tarjeta->obtenerId();
+            $viajesPlusAbonados = $tarjeta->obtenerViajesPlusAbonados();
+
+            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados);
+
+            $tarjeta->reiniciarViajesPlusAbonados();
+            
+            return $boleto;
+        }
+
+        return FALSE;
     }
 }
