@@ -102,7 +102,8 @@ class Tarjeta implements TarjetaInterface {
             $this->pagarBoleto();
 			return TRUE;
 		}
-		return FALSE;
+
+		return $this->pagoBoletoConPlus();
 	}
 
 	public function pagoBoletoConPlus() {
@@ -122,7 +123,7 @@ class Tarjeta implements TarjetaInterface {
             return TRUE;
 		}
 
-		return False;
+		return FALSE;
 	}
 
 }

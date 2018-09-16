@@ -13,14 +13,14 @@ class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface{
 		return $this->valor/2;
 	}
 
-/* si pasaron 5 minutos, no se puede pagar con el medio voleto. */
+/* si no pasaron 5 minutos, no se puede pagar con el medio voleto. */
 	public function pagoBoleto() {
 		if($this->ultimaFechaPagada == NULL || $this->tiempoDeEsperaCumplido()){
 			if($this->obtenerSaldo() >= $this->valorBoleto()){
 				$this->pagarBoleto();
 				return TRUE;
 			}
-			return FALSE;
+			return $this->pagoBoletoConPlus();
 		}
 
 		return FALSE;

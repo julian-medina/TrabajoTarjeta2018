@@ -24,7 +24,7 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 					$this->pagarBoleto();
 					return TRUE;
 				}
-				return FALSE;
+				return $this->pagoBoletoConPlus();
 			}
 
 			return FALSE;
@@ -34,7 +34,7 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 			$this->pagarBoleto();
 			return TRUE;
 		}
-		return FALSE;
+		return $this->pagoBoletoConPlus();
 
 	}
 
