@@ -1,44 +1,35 @@
 <?php
-
 namespace TrabajoTarjeta;
-
 use PHPUnit\Framework\TestCase;
+class MedioBoletoEstudiantilTest extends TestCase {
 
-class ColectivoTest extends TestCase {
-
-/* Comprueba que se puede pagar si la tarjeta tiene saldo */
-
-    public function testPagarConTarjeta() {
+     /* el monto del boleto pagado con medio boleto es siempre la mitad del normal. */
+  
+     public function testMedioBoletoEstudiantil() {
         $tiempo = new TiempoFalso();
-        $tarjeta = new Tarjeta($tiempo, "123456");
-        $linea = "144 N";
+        $tarjeta = new MedioBoletoEstudiantil($tiempo, "123456");
+        $linea = 144;
         $empresa = "auckland"; 
         $numero = 2;
         $colectivo = new Colectivo($linea, $empresa, $numero);
         $valor = 14.80;
         $boleto = new Boleto($valor, $colectivo, $tarjeta, NULL, NULL, NULL, NULL, NULL);
-
+    
+        $this->assertEquals(get_class($tarjeta),"TrabajoTarjeta\MedioBoletoEstudiantil");
+        $this->assertEquals($tarjeta->obtenerSaldo(), 0);
         $this->assertTrue($tarjeta->recargar(20));
-        $this->assertEquals($tarjeta->obtenerSaldo(), 20.0);
+        $colectivo->pagarCon($tarjeta);
+        $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.8/2);
+        $colectivo->pagarCon($tarjeta);
+        $this->assertEquals($tarjeta->obtenerSaldo(), 20-14.8);
+    
+      }
 
-        $this->assertEquals($colectivo->pagarCon($tarjeta)->obtenerColectivo(), $boleto->obtenerColectivo());
-        /* Comprueba que se descuenta el dinero al pagar */
-        $this->assertEquals($tarjeta->obtenerSaldo(), 20.0-$valor);
-
-        $this->assertEquals($tarjeta->obtenerViajesPlus(), 2);
-
-        //test de las funciones en clase colectivo
-        $this->assertEquals($colectivo->linea(), $linea);
-        $this->assertEquals($colectivo->empresa(), $empresa);
-        $this->assertEquals($colectivo->numero(), $numero);
-    }
-
-    /* Comprueba que NO se puede pagar si la tarjeta no tiene saldo */
-    /* Valida que se pueden dar hasta 2 viajes plus */
-    /* Comprueba que devuelve el tipo de boleto correcto (plus abonados, usado, o viaje normal) */
-    public function testPagarConTarjetaSinSaldo() {
+      
+    /* similar al test hecho con Tarjeta */
+    public function testPagarConMedioBoletoEstudiantilSinSaldo() {
         $tiempo = new TiempoFalso();
-        $tarjeta = new Tarjeta($tiempo, "123456");
+        $tarjeta = new MedioBoletoEstudiantil($tiempo, "123456");
         $linea = "144 N";
         $empresa = 'Auckland'; 
         $numero = 2;
@@ -76,8 +67,10 @@ class ColectivoTest extends TestCase {
         $totalAbonado = $valorPlus + $tarjeta->valorBoleto();
 
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boletoAbonaDosPlus); //pagar sin saldo, el boleto es del ultimo plus
-        $this->assertEquals($boletoAbonaDosPlus->obtenerTipoBoleto(),"ABONA VIAJES PLUS: $29.6\nTOTAL ABONADO: $44.4"); //El tipo de boleto es el indicado
+        $this->assertEquals($boletoAbonaDosPlus->obtenerTipoBoleto(),"ABONA VIAJES PLUS: $29.6\nTOTAL ABONADO: $37"); //El tipo de boleto es el indicado
         $this->assertEquals($boletoAbonaDosPlus->obtenerTipoBoleto(),"ABONA VIAJES PLUS: $".$valorPlus."\nTOTAL ABONADO: $".$totalAbonado); //El tipo de boleto es el indicado
 
     }
+
+    
 }

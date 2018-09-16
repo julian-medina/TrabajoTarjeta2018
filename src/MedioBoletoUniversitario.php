@@ -43,7 +43,7 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 		$this->saldo -= $this->valorBoleto();
 		$tiempoNuevo = $this->tiempo->time();
 		$this->ultimaFechaPagada = $tiempoNuevo;
-		$this->medios_usados++;
+		$this->mediosUsados++;
 	}
 
 	public function tiempoDeEsperaCumplido(){
