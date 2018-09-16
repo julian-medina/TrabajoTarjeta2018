@@ -9,21 +9,33 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
     
 	protected $ultimaFechaPagada = NULL;
 	
+	protected $mediosUsados = 0;
+
 	public function valorBoleto(){
 		return $this->valor/2;
 	}
 
-/* si pasaron 5 minutos, no se puede pagar con el medio voleto. */
+/* si pasaron 5 minutos, no se puede pagar con el medio voleto. 
+si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 	public function pagoBoleto() {
-		if($this->ultimaFechaPagada == NULL || $this->tiempoDeEsperaCumplido()){
-			if($this->obtenerSaldo() >= $this->valorBoleto()){
-				$this->pagarBoleto();
-				return TRUE;
+		if($this->medioDisponible()){
+			if($this->ultimaFechaPagada == NULL || $this->tiempoDeEsperaCumplido()){
+				if($this->obtenerSaldo() >= $this->valorBoleto()){
+					$this->pagarBoleto();
+					return TRUE;
+				}
+				return FALSE;
 			}
+
 			return FALSE;
 		}
 
+		if($this->obtenerSaldo() >= $this->valorBoletoCompleto()){
+			$this->pagarBoleto();
+			return TRUE;
+		}
 		return FALSE;
+
 	}
 
 	public function pagarBoleto(){
@@ -31,6 +43,7 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
 		$this->saldo -= $this->valorBoleto();
 		$tiempoNuevo = $this->tiempo->time();
 		$this->ultimaFechaPagada = $tiempoNuevo;
+		$this->medios_usados++;
 	}
 
 	public function tiempoDeEsperaCumplido(){
@@ -45,7 +58,31 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
         return FALSE;
 	}
 
+	public function medioDisponible(){
+		if($this->mediosUsados < 2){
+			return TRUE;
+		}
+		if($this->tiempoDeEsperaUltimoMedioCumplido()){
+		  $this->mediosUsados = 0;
+		  return TRUE;
+		}
+		return FALSE;
+  	}
 
+	public function tiempoDeEsperaUltimoMedioCumplido(){
+        $ultimaFechaPagada = $this->obtenerUltimaFechaPagada();
+        
+        $ultimaFechaPagada = date("d/m/y", $ultimaFechaPagada);
+    
+        $fechaActual = $this->tiempo->time();
+        $fechaActual = date("d/m/y", $fechaActual);
+            
+        if($ultimaFechaPagada < $fechaActual){
+             return TRUE;
+        }
+        return FALSE;
+	}
+	
 	public function obtenerTiempoDeEspera(){
 		return $this->tiempoDeEspera;
 	}
