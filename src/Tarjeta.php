@@ -56,6 +56,10 @@ class Tarjeta implements TarjetaInterface {
       	return $this->saldo;
 	}
 
+	public function obtenerValorBoletoUtilizado(){
+		return $this->valorBoleto();
+	  }
+
 	public function obtenerId() {
 		return $this->id;
   }

@@ -41,7 +41,7 @@ class Colectivo implements ColectivoInterface {
 
         if($tarjeta->pagoBoleto()){
 
-            $valor = $tarjeta->valorBoleto();
+            $valor = $tarjeta->obtenerValorBoletoUtilizado();
             $fecha = date("d/m/y H:i", time());
             $tipoTarjeta = get_class($tarjeta);
             $saldo = $tarjeta->obtenerSaldo();

@@ -11,11 +11,19 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
 	
 	protected $mediosUsados = 0;
 
+	protected $valorUtilizado;
+
 	public function valorBoleto(){
-		return $this->valor/2;
+		if($this->medioDisponible()){
+			$this->valorUtilizado = $this->valor/2;
+			return $this->valor/2;
+		}
+
+		$this->valorUtilizado = $this->valor;
+		return $this->valor;
 	}
 
-/* si pasaron 5 minutos, no se puede pagar con el medio voleto. 
+/* si pasaron 5 minutos, no se puede pagar con el medio boleto. 
 si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 	public function pagoBoleto() {
 		if($this->medioDisponible()){
@@ -59,13 +67,14 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 	}
 
 	public function medioDisponible(){
-		if($this->mediosUsados < 2){
+		if($this->mediosUsados < 2)
 			return TRUE;
-		}
+		
 		if($this->tiempoDeEsperaUltimoMedioCumplido()){
 		  $this->mediosUsados = 0;
 		  return TRUE;
 		}
+
 		return FALSE;
   	}
 
@@ -90,4 +99,8 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 	public function obtenerUltimaFechaPagada(){
 	  return $this->ultimaFechaPagada;
 	}
+
+	public function obtenerValorBoletoUtilizado(){
+		return $this->valorUtilizado;
+	  }
 }
