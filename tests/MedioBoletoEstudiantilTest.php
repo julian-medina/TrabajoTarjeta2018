@@ -73,18 +73,27 @@ class MedioBoletoEstudiantilTest extends TestCase {
     }
 
     public function testMedioBoletoEstudiantilCada5Minutos() {
-        $tiempo = new Tiempo();
+        $tiempo = new TiempoFalso();
         $tarjeta = new MedioBoletoEstudiantil($tiempo, "123456");
         $linea = "144 N";
         $empresa = 'Auckland'; 
         $numero = 2;
         $colectivo = new Colectivo($linea, $empresa, $numero);
         $valor = $tarjeta->valorBoleto();
-
+        $tiempo->avanzar(300); //avanzo el tiempo al principio para que no se guarde NULL (0) en la ult fecha pagada 
         $tarjeta->recargar(100);
         $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo()-$valor, $tarjeta->obtenerId(), 0);
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
+
+        $this->assertNotEquals($tiempo->time(), NULL);
+        /* no se puede pagar si no pasaron 5 minutos */
+        $this->assertFalse($tarjeta->tiempoDeEsperaCumplido());
         $this->assertFalse($colectivo->pagarCon($tarjeta));
+
+        /* pasaron 5 minutos y se puede pagar */
+        $tiempo->avanzar(300);
+        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo()-$valor, $tarjeta->obtenerId(), 0);
+        $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
     }
 
 
