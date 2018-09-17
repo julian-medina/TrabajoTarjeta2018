@@ -49,4 +49,23 @@ class TarjetaTest extends TestCase {
     $this->assertEquals($tarjeta->obtenerSaldo(), 0);
   }
 
+  public function testPagarConTiemopReal() {
+    $tiempo = new Tiempo();
+    $tarjeta = new MedioBoletoEstudiantil($tiempo, "123456");
+    $linea = "144 N";
+    $empresa = 'Auckland'; 
+    $numero = 2;
+    $colectivo = new Colectivo($linea, $empresa, $numero);
+    $valor = $tarjeta->valorBoleto();
+
+    $tarjeta->recargar(100);
+    $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo()-$valor, $tarjeta->obtenerId(), 0);
+    $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
+
+    $this->assertNotEquals($tiempo->time(), NULL);
+    
+    /* no se puede pagar si no pasaron 5 minutos */
+    $this->assertFalse($tarjeta->tiempoDeEsperaCumplido());
+    $this->assertFalse($colectivo->pagarCon($tarjeta));
+  }
 }
