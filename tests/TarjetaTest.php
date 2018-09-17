@@ -21,6 +21,10 @@ class TarjetaTest extends TestCase {
         
         $this->assertTrue($tarjeta->recargar(20));
         $this->assertEquals($tarjeta->obtenerSaldo(), 510.15+81.93+30);
+
+        $tarjeta2 = new Tarjeta($tiempo, "123456");
+        $this->assertTrue($tarjeta2->recargar(962.59));
+        $this->assertEquals($tarjeta2->obtenerSaldo(), 962.59 + 221.58);
     }
 
     /**
@@ -63,7 +67,7 @@ class TarjetaTest extends TestCase {
     $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
 
     $this->assertNotEquals($tiempo->time(), NULL);
-    
+
     /* no se puede pagar si no pasaron 5 minutos */
     $this->assertFalse($tarjeta->tiempoDeEsperaCumplido());
     $this->assertFalse($colectivo->pagarCon($tarjeta));
