@@ -41,7 +41,7 @@ class Colectivo implements ColectivoInterface {
 
         if($tarjeta->pagoBoleto()){
 
-            $valor = $tarjeta->valorBoleto();
+            $valor = $tarjeta->obtenerValorBoletoUtilizado();
             $fecha = date("d/m/y H:i", time());
             $tipoTarjeta = get_class($tarjeta);
             $saldo = $tarjeta->obtenerSaldo();
@@ -52,22 +52,6 @@ class Colectivo implements ColectivoInterface {
 
             $tarjeta->reiniciarViajesPlusAbonados();
 
-            return $boleto;
-        }
-
-        if($tarjeta->pagoBoletoConPlus()){
-
-            $valor = $tarjeta->valorBoleto();
-            $fecha = date("d/m/y H:i", time());
-            $tipoTarjeta = get_class($tarjeta);
-            $saldo = $tarjeta->obtenerSaldo();
-            $id = $tarjeta->obtenerId();
-            $viajesPlusAbonados = $tarjeta->obtenerViajesPlusAbonados();
-
-            $boleto = new Boleto($valor, $this, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados);
-
-            $tarjeta->reiniciarViajesPlusAbonados();
-            
             return $boleto;
         }
 

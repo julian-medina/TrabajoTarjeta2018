@@ -56,6 +56,10 @@ class Tarjeta implements TarjetaInterface {
       	return $this->saldo;
 	}
 
+	public function obtenerValorBoletoUtilizado(){
+		return $this->valorBoleto();
+	  }
+
 	public function obtenerId() {
 		return $this->id;
   }
@@ -102,7 +106,8 @@ class Tarjeta implements TarjetaInterface {
             $this->pagarBoleto();
 			return TRUE;
 		}
-		return FALSE;
+
+		return $this->pagoBoletoConPlus();
 	}
 
 	public function pagoBoletoConPlus() {
@@ -122,7 +127,7 @@ class Tarjeta implements TarjetaInterface {
             return TRUE;
 		}
 
-		return False;
+		return FALSE;
 	}
 
 }
