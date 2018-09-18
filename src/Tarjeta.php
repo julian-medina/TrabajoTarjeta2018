@@ -9,6 +9,9 @@ class Tarjeta implements TarjetaInterface {
 	protected $viajesPlusAbonados = 0;
 	protected $tiempo;
 	protected $id;
+	protected $trasbordo = false;
+	protected $horaUltimoViaje = NULL;
+	protected $ultimoColectivo = NULL;
 
 	public function __construct(TiempoInterface $tiempo, $id){
 		$this->tiempo=$tiempo;
@@ -96,11 +99,16 @@ class Tarjeta implements TarjetaInterface {
 		return $this->valor;
 	}
 	
+	/* tiene que asignar $horaUltimoViaje y $ultimoColectivo */
 	public function pagarBoleto(){
 		$this->saldo -= $this->valorBoleto();
 	}
 
 	public function pagoBoleto() {
+
+		if($this->trasbordoDisponible()){
+			return $this->abonarTrasbordo();
+		}
 
 		if($this->obtenerSaldo() >= $this->valorBoleto()){
             $this->pagarBoleto();
@@ -127,6 +135,24 @@ class Tarjeta implements TarjetaInterface {
             return TRUE;
 		}
 
+		return FALSE;
+	}
+
+	public function abonarTrasbordo(){
+		if($this->obtenerSaldo() >= $this->valorBoleto()/3){
+			$this->saldo -= $this->valorBoleto()/3;
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+
+	/* esta funcion debe analizar:
+
+	- que sean distintos colectivo anterior - colectivo actual
+	- que se pueda usar trasbordo en la hora del dia y dia actual
+	- diferencia de tiempo entre ultimo viaje y viaje actual */
+	public function trasbordoDisponible(){
 		return FALSE;
 	}
 
