@@ -25,30 +25,39 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
 
 /* si pasaron 5 minutos, no se puede pagar con el medio boleto. 
 si ya se usaron los 2 medios diarios, se paga el valor completo.*/
-	public function pagoBoleto() {
+	public function pagoBoleto($linea) {
 		if($this->medioDisponible()){
 			if($this->ultimaFechaPagada == NULL || $this->tiempoDeEsperaCumplido()){
-				if($this->obtenerSaldo() >= $this->valorBoleto()){
-					$this->pagarBoleto();
+
+				$valorBoleto = $this->calcularValorBoleto($linea);
+
+				if($this->obtenerSaldo() >= $valorBoleto){
+					$this->pagarBoleto($valorBoleto);
+					$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
+					$this->ultimoColectivo = $linea;
+					$this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
 					return TRUE;
 				}
-				return $this->pagoBoletoConPlus();
+				return $this->pagoBoletoConPlus($linea);
 			}
 
 			return FALSE;
 		}
 
 		if($this->obtenerSaldo() >= $this->valorBoletoCompleto()){
-			$this->pagarBoleto();
+			$this->pagarBoleto($this->valorBoletoCompleto());
+			$this->ultimoValorPagado = $this->valorBoletoCompleto(); //Se guarda cuento pago
+            $this->ultimoColectivo = $linea;
+            $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
 			return TRUE;
 		}
-		return $this->pagoBoletoConPlus();
+		return $this->pagoBoletoConPlus($linea);
 
 	}
 
-	public function pagarBoleto(){
+	public function pagarBoleto($valorBoleto){
 
-		$this->saldo -= $this->valorBoleto();
+		$this->saldo -= $valorBoleto;
 		$tiempoNuevo = $this->tiempo->time();
 		$this->ultimaFechaPagada = $tiempoNuevo;
 		$this->mediosUsados++;

@@ -44,8 +44,8 @@ class ColectivoTest extends TestCase {
         $numero = 2;
         $colectivo = new Colectivo($linea, $empresa, $numero);
         $valor = $tarjeta->valorBoleto();
-        $boletoPrimerPlus = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
-        $boletoUltimoPlus = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
+        $boletoPrimerPlus = new Boleto(0.0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
+        $boletoUltimoPlus = new Boleto(0.0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
     
 
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boletoPrimerPlus); //pagar sin saldo, el boleto es de un plus

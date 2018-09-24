@@ -12,6 +12,7 @@ class Tarjeta implements TarjetaInterface {
 	protected $ultimoTrasbordo = 1;
 	protected $horaUltimoViaje = NULL;
 	protected $ultimoColectivo = NULL;
+	protected $ultimoValorPagado = NULL;
 
 	public function __construct(TiempoInterface $tiempo, $id){
 		$this->tiempo=$tiempo;
@@ -60,7 +61,7 @@ class Tarjeta implements TarjetaInterface {
 	}
 
 	public function obtenerValorBoletoUtilizado(){
-		return $this->valorBoleto();
+		return $this->ultimoValorPagado;
 	  }
 
 	public function obtenerId() {
@@ -108,19 +109,25 @@ class Tarjeta implements TarjetaInterface {
 
 		$valorBoleto = $this->calcularValorBoleto($linea);
 		if($this->obtenerSaldo() >= $valorBoleto){
-            $this->pagarBoleto($valorBoleto);
+			$this->pagarBoleto($valorBoleto);
+			$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
+            $this->ultimoColectivo = $linea;
+            $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
 			return TRUE;
 		}
 
-		return $this->pagoBoletoConPlus();
+		return $this->pagoBoletoConPlus($linea);
 	}
 
-	public function pagoBoletoConPlus() {
+	public function pagoBoletoConPlus($linea) {
+
 		if($this->obtenerViajesPlus() == 2){
 			$this->pagarViajesPlus();
 
 			$this->primerPlusUsado();
-			
+			$this->ultimoValorPagado = 0.0; //Se guarda cuento pago
+            $this->ultimoColectivo = $linea;
+            $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
             return TRUE;
 		}
 
@@ -128,7 +135,9 @@ class Tarjeta implements TarjetaInterface {
 			$this->pagarViajesPlus();
 			
 			$this->ultimoPlusUsado();
-
+			$this->ultimoValorPagado = 0.0; //Se guarda cuento pago
+            $this->ultimoColectivo = $linea;
+            $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
             return TRUE;
 		}
 
