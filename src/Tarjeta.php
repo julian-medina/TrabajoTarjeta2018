@@ -9,7 +9,7 @@ class Tarjeta implements TarjetaInterface {
 	protected $viajesPlusAbonados = 0;
 	protected $tiempo;
 	protected $id;
-	protected $trasbordo = false;
+	protected $ultimoTrasbordo = 1;
 	protected $horaUltimoViaje = NULL;
 	protected $ultimoColectivo = NULL;
 
@@ -100,18 +100,15 @@ class Tarjeta implements TarjetaInterface {
 	}
 	
 	/* tiene que asignar $horaUltimoViaje y $ultimoColectivo */
-	public function pagarBoleto(){
-		$this->saldo -= $this->valorBoleto();
+	public function pagarBoleto($valorBoleto){
+		$this->saldo -= $valorBoleto;
 	}
 
-	public function pagoBoleto() {
+	public function pagoBoleto($linea) {
 
-		if($this->trasbordoDisponible()){
-			return $this->abonarTrasbordo();
-		}
-
-		if($this->obtenerSaldo() >= $this->valorBoleto()){
-            $this->pagarBoleto();
+		$valorBoleto = $this->calcularValorBoleto($linea);
+		if($this->obtenerSaldo() >= $valorBoleto){
+            $this->pagarBoleto($valorBoleto);
 			return TRUE;
 		}
 
@@ -138,22 +135,51 @@ class Tarjeta implements TarjetaInterface {
 		return FALSE;
 	}
 
-	public function abonarTrasbordo(){
-		if($this->obtenerSaldo() >= $this->valorBoleto()/3){
-			$this->saldo -= $this->valorBoleto()/3;
-			return TRUE;
+	public function calcularValorBoleto($linea){
+        return $this->trasbordo($linea,$this->valorBoleto());
+	}
+	
+    protected function trasbordo($linea,$valorBoleto){
+
+        if ($this->ultimoColectivo == $linea || $this->ultimoValorPagado == 0.0 || $this->ultimoTrasbordo) {
+            $this->ultimoTrasbordo = 0;
+            return $valorBoleto;
 		}
-		return FALSE;
+		
+        if(((date('N',$this->tiempo->time())<=5 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<22) || (date('N',$this->tiempo->time())==6 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<14)) && (!$this->feriado())){
+            if(($this->tiempo->time() - $this->horaUltimoViaje) < 3600){
+                $this->ultimoTrasbordo = 1;
+                return ($valorBoleto*0.33);
+            }
+        }
+        else{
+            if(($this->tiempo->time() - $this->horaUltimoViaje) < 5400){
+                $this->ultimoTrasbordo = 1;
+                return ($valorBoleto*0.33);
+            }
+        }
+        $this->ultimoTrasbordo = 0;
+        return $valorBoleto;
 	}
-
-
-	/* esta funcion debe analizar:
-
-	- que sean distintos colectivo anterior - colectivo actual
-	- que se pueda usar trasbordo en la hora del dia y dia actual
-	- diferencia de tiempo entre ultimo viaje y viaje actual */
-	public function trasbordoDisponible(){
-		return FALSE;
-	}
+	
+    protected function feriado(){
+        $fecha = date('d-m',$this->tiempo->time());
+        $feriados        = array(
+            '01-01',  //  Año Nuevo
+            '24-03',  //  Día Nacional de la Memoria por la Verdad y la Justicia.
+            '02-04',  //  Día del Veterano y de los Caídos en la Guerra de Malvinas.
+            '01-05',  //  Día del trabajador.
+            '25-05',  //  Día de la Revolución de Mayo. 
+            '17-06',  //  Día Paso a la Inmortalidad del General Martín Miguel de Güemes.
+            '20-06',  //  Día Paso a la Inmortalidad del General Manuel Belgrano. F
+            '09-07',  //  Día de la Independencia.
+            '17-08',  //  Paso a la Inmortalidad del Gral. José de San Martín
+            '12-10',  //  Día del Respeto a la Diversidad Cultural 
+            '20-11',  //  Día de la Soberanía Nacional
+            '08-12',  //  Inmaculada Concepción de María
+            '25-12',  //  Navidad
+            );
+        return in_array($fecha,$feriados);
+    }
 
 }
