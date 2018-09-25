@@ -66,7 +66,7 @@ class MedioBoletoUniversitarioTest extends TestCase {
         $tiempo->avanzar(300); //avanzo el tiempo al principio para que no se guarde NULL (0) en la ult fecha pagada 
 
          /* se paga el primer viaje plus */
-        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
+        $boleto = new Boleto(0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
 
         $this->assertNotEquals($tiempo->time(), NULL);
@@ -78,7 +78,7 @@ class MedioBoletoUniversitarioTest extends TestCase {
         $this->assertFalse($colectivo->pagarCon($tarjeta));
         
         $tiempo->avanzar(300); //pasan 5 min
-        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
+        $boleto = new Boleto(0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto); //pago ult plus
 
         /* testea el caso de usar viajes plus no teniendo medio boleto disponible. */
@@ -95,11 +95,11 @@ class MedioBoletoUniversitarioTest extends TestCase {
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
 
         /* paga viaje plus 1 */
-        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
+        $boleto = new Boleto(0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
 
         /* paga viaje plus 2 */
-        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
+        $boleto = new Boleto(0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
 
         /* no se puede pagar mas boletos */
@@ -119,11 +119,11 @@ class MedioBoletoUniversitarioTest extends TestCase {
         /*
         Pruebo pagar un trasbordo un dia feriado con 90 minutos de espera y el texto del boleto
         */
-        $boleto = $colectivo1->pagarCon($tarjeta);
+        $boleto = $colectivo1->pagarCon($tarjeta); //boleto medio universitario
         $this->assertEquals($tarjeta->obtenerSaldo(), 192.6);
         $tiempo->avanzar(4200);
         $boleto2 = $colectivo2->pagarCon($tarjeta);
-        //$this->assertEquals($boleto2->obtenerDescripcion(), "Trasbordo Medio 2.442");
+        $this->assertEquals($boleto2->obtenerTipoBoleto(), "TRASBORDO"); //medio trasbordo
         $this->assertEquals($tarjeta->obtenerSaldo(), 190.158);
         $tiempo->avanzar(60*60*24*365); //avanzo un anio
         $colectivo1->pagarCon($tarjeta);
@@ -131,7 +131,14 @@ class MedioBoletoUniversitarioTest extends TestCase {
         $this->assertEquals($tarjeta->obtenerSaldo(), 182.758); //pago primer medio
         $tiempo->avanzar(60*85); //pasan 85 mins
         $boleto2 = $colectivo2->pagarCon($tarjeta);
-        //$this->assertEquals($boleto2->obtenerDescripcion(), "Trasbordo Medio 2.442");
+        $this->assertEquals($boleto2->obtenerTipoBoleto(), "TRASBORDO"); //pago medio trasbordo.
         $this->assertEquals($tarjeta->obtenerSaldo(), 180.316);
+
+        $boleto = $colectivo1->pagarCon($tarjeta); //boleto normal, ya use los dos medios del dia
+        $this->assertEquals($tarjeta->obtenerSaldo(), 165.516);
+        $tiempo->avanzar(60*85); //pasan 85 mins
+        $boleto2 = $colectivo2->pagarCon($tarjeta);
+        $this->assertEquals($boleto2->obtenerTipoBoleto(), "TRASBORDO"); //pago trasbordo normal
+        $this->assertEquals($tarjeta->obtenerSaldo(), 160.632);
     }
 }

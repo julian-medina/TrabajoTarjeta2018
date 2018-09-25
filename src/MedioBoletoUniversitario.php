@@ -9,15 +9,11 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
     
 	protected $mediosUsados = 0;
 
-	protected $valorUtilizado;
-
 	public function valorBoleto(){
 		if($this->medioDisponible()){
-			$this->valorUtilizado = $this->valor/2;
 			return $this->valor/2;
 		}
 
-		$this->valorUtilizado = $this->valor;
 		return $this->valor;
 	}
 
@@ -50,11 +46,17 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 			return FALSE;
 		}
 
-		if($this->obtenerSaldo() >= $this->valorBoletoCompleto()){
-			$this->pagarBoleto($this->valorBoletoCompleto());
-			$this->ultimoValorPagado = $this->valorBoletoCompleto(); //Se guarda cuento pago
+		$valorBoleto = $this->calcularValorBoleto($linea);
+		if($this->obtenerSaldo() >= $valorBoleto){
+			$this->pagarBoleto($valorBoleto);
+			$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
             $this->ultimoColectivo = $linea;
-            $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
+			$this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
+			$this->ultimoViajeFueTrasbordo = FALSE;
+
+			if($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+				$this->ultimoViajeFueTrasbordo = TRUE;
+
 			return TRUE;
 		}
 		return $this->pagoBoletoConPlus($linea);
@@ -103,7 +105,4 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 		return $this->tiempoDeEspera;
 	}
 
-	public function obtenerValorBoletoUtilizado(){
-		return $this->valorUtilizado;
-	  }
 }
