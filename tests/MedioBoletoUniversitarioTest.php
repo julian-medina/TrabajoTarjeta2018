@@ -106,4 +106,32 @@ class MedioBoletoUniversitarioTest extends TestCase {
         $this->assertFalse($colectivo->pagarCon($tarjeta));
     }
 
+    public function testTrasbordoUniversitario()
+    {
+        $tiempo = new TiempoFalso; //'01-01-70 01:00'
+        $tarjeta = new MedioBoletoUniversitario($tiempo, "1234");
+        //$tiempo->avanzar(42300);
+        //$this->assertFalse (date('d-m-y H:i',$tiempo->time())); //'01-01-70 01:00'
+        $tarjeta->recargar(100);
+        $tarjeta->recargar(100);
+        $colectivo1 = new Colectivo(122, "Semtur", 37);
+        $colectivo2 = new Colectivo(134, "RosarioBus", 52);
+        /*
+        Pruebo pagar un trasbordo un dia feriado con 90 minutos de espera y el texto del boleto
+        */
+        $boleto = $colectivo1->pagarCon($tarjeta);
+        $this->assertEquals($tarjeta->obtenerSaldo(), 192.6);
+        $tiempo->avanzar(4200);
+        $boleto2 = $colectivo2->pagarCon($tarjeta);
+        //$this->assertEquals($boleto2->obtenerDescripcion(), "Trasbordo Medio 2.442");
+        $this->assertEquals($tarjeta->obtenerSaldo(), 190.158);
+        $tiempo->avanzar(60*60*24*365); //avanzo un anio
+        $colectivo1->pagarCon($tarjeta);
+        $this->assertEquals(date('d-m',$tiempo->time()), "01-01"); //es feriado
+        $this->assertEquals($tarjeta->obtenerSaldo(), 182.758); //pago primer medio
+        $tiempo->avanzar(60*85); //pasan 85 mins
+        $boleto2 = $colectivo2->pagarCon($tarjeta);
+        //$this->assertEquals($boleto2->obtenerDescripcion(), "Trasbordo Medio 2.442");
+        $this->assertEquals($tarjeta->obtenerSaldo(), 180.316);
+    }
 }
