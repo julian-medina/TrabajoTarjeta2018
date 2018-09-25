@@ -158,14 +158,15 @@ class Tarjeta implements TarjetaInterface {
         if ($this->ultimoColectivo == $linea || $this->ultimoValorPagado == 0.0 || $this->ultimoViajeFueTrasbordo) {
             return $valorBoleto;
 		}
-		
+		/* Cuando no es feriado, de lunes a viernes de 6 a 22 o sabados de 6 a 14 */
 		if(((date('N',$this->tiempo->time())<=5 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<22) 
 		|| (date('N',$this->tiempo->time())==6 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<14))
 		 && (!$this->feriado())){
+			 //hasta 60 minutos
             if(($this->tiempo->time() - $this->horaUltimoViaje) < 3600){
                 return ($valorBoleto*0.33);
             }
-        }
+        } //en el resto de los casos, hasta 90 minutos para trasbordo
         else{
             if(($this->tiempo->time() - $this->horaUltimoViaje) < 5400){
                 return ($valorBoleto*0.33);

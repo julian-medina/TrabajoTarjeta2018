@@ -127,12 +127,12 @@ class TarjetaTest extends TestCase {
     $this->assertEquals("NORMAL",$boleto->obtenerTipoBoleto()); // pago un viaje normal
     $this->assertEquals($tarjeta->obtenerSaldo(), 1150.402);
     //ahora tendria que dejarme pagar trasbordo pero voy a adelantar el tiempo superando el limite
-    $tiempo->avanzar(3602);
+    $tiempo->avanzar(60*90);
     $boleto = new Boleto($valor, $colectivo2, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo() - $valor, $tarjeta->obtenerId(), 0); //boleto a comparar mas adelante ya que pagarCon devuelve FALSE | Boleto
     
     /* revisar estos tests */
-    //$this->assertEquals($colectivo2->pagarCon($tarjeta),$boleto); // pago un viaje normal
-    //$this->assertEquals($tarjeta->obtenerSaldo(), 1135.602);
+    $this->assertEquals($colectivo2->pagarCon($tarjeta),$boleto); // pago un viaje normal
+    $this->assertEquals($tarjeta->obtenerSaldo(), 1135.602);
     //ya verifique los dos horarios posibles dentro de los dias de lunes a viernes así que como para el resto de dias de lunes a viernes sería lo mismo corto el test aca
     
 }
