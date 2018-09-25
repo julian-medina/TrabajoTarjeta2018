@@ -24,6 +24,10 @@ class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface{
 				$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
 				$this->ultimoColectivo = $linea;
 				$this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
+				$this->ultimoViajeFueTrasbordo = FALSE;
+				if($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+					$this->ultimoViajeFueTrasbordo = TRUE;
+					
 				return TRUE;
 			}
 			return $this->pagoBoletoConPlus($linea);

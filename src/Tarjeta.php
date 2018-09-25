@@ -9,7 +9,7 @@ class Tarjeta implements TarjetaInterface {
 	protected $viajesPlusAbonados = 0;
 	protected $tiempo;
 	protected $id;
-	protected $ultimoTrasbordo = TRUE;
+	protected $ultimoViajeFueTrasbordo = TRUE;
 	protected $horaUltimoViaje = NULL;
 	protected $ultimoColectivo = NULL;
 	protected $ultimoValorPagado = NULL;
@@ -113,10 +113,10 @@ class Tarjeta implements TarjetaInterface {
 			$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
             $this->ultimoColectivo = $linea;
 			$this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
-			$this->ultimoTrasbordo = FALSE;
+			$this->ultimoViajeFueTrasbordo = FALSE;
 
 			if($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
-				$this->ultimoTrasbordo = TRUE;
+				$this->ultimoViajeFueTrasbordo = TRUE;
 
 			return TRUE;
 		}
@@ -155,7 +155,7 @@ class Tarjeta implements TarjetaInterface {
 	
     protected function trasbordo($linea,$valorBoleto){
 
-        if ($this->ultimoColectivo == $linea || $this->ultimoValorPagado == 0.0 || $this->ultimoTrasbordo) {
+        if ($this->ultimoColectivo == $linea || $this->ultimoValorPagado == 0.0 || $this->ultimoViajeFueTrasbordo) {
             return $valorBoleto;
 		}
 		

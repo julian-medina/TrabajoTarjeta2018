@@ -71,16 +71,21 @@ class MedioBoletoUniversitarioTest extends TestCase {
 
         $this->assertNotEquals($tiempo->time(), NULL);
 
-        /* se puede pagar el 2do aunque no hayan pasado 5 minutos */
-        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
-        $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
-
+        /* No se puede pagar el 2do porque no pasaron 5 minutos y queda un medio boleto disponible en el dia.*/
+        $this->assertFalse($colectivo->pagarCon($tarjeta));
+        
         /* no se puede pagar mas boletos */
         $this->assertFalse($colectivo->pagarCon($tarjeta));
+        
+        $tiempo->avanzar(300); //pasan 5 min
+        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
+        $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto); //pago ult plus
 
         /* testea el caso de usar viajes plus no teniendo medio boleto disponible. */
         /* cargamos $50, al abonar los 2 plus quedan $20.4. Con el medio pagado quedan $13*/
         $tarjeta->recargar(50);
+        $tiempo->avanzar(300); //pasan 5 min
+
         $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo()-$valor, $tarjeta->obtenerId(), 2);
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
 
