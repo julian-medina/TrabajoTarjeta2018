@@ -9,7 +9,7 @@ class Tarjeta implements TarjetaInterface {
 	protected $viajesPlusAbonados = 0;
 	protected $tiempo;
 	protected $id;
-	protected $ultimoTrasbordo = 1;
+	protected $ultimoTrasbordo = TRUE;
 	protected $horaUltimoViaje = NULL;
 	protected $ultimoColectivo = NULL;
 	protected $ultimoValorPagado = NULL;
@@ -112,7 +112,12 @@ class Tarjeta implements TarjetaInterface {
 			$this->pagarBoleto($valorBoleto);
 			$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
             $this->ultimoColectivo = $linea;
-            $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
+			$this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
+			$this->ultimoTrasbordo = FALSE;
+
+			if($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+				$this->ultimoTrasbordo = TRUE;
+
 			return TRUE;
 		}
 
@@ -151,23 +156,20 @@ class Tarjeta implements TarjetaInterface {
     protected function trasbordo($linea,$valorBoleto){
 
         if ($this->ultimoColectivo == $linea || $this->ultimoValorPagado == 0.0 || $this->ultimoTrasbordo) {
-            $this->ultimoTrasbordo = 0;
             return $valorBoleto;
 		}
 		
         if(((date('N',$this->tiempo->time())<=5 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<22) || (date('N',$this->tiempo->time())==6 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<14)) && (!$this->feriado())){
             if(($this->tiempo->time() - $this->horaUltimoViaje) < 3600){
-                $this->ultimoTrasbordo = 1;
                 return ($valorBoleto*0.33);
             }
         }
         else{
             if(($this->tiempo->time() - $this->horaUltimoViaje) < 5400){
-                $this->ultimoTrasbordo = 1;
                 return ($valorBoleto*0.33);
             }
-        }
-        $this->ultimoTrasbordo = 0;
+		}
+		
         return $valorBoleto;
 	}
 	
