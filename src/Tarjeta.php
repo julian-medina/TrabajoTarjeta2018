@@ -9,7 +9,7 @@ class Tarjeta implements TarjetaInterface {
 	protected $viajesPlusAbonados = 0;
 	protected $tiempo;
 	protected $id;
-	protected $ultimoViajeFueTrasbordo = TRUE;
+	protected $ultimoViajeFueTrasbordo = FALSE;
 	protected $horaUltimoViaje = NULL;
 	protected $ultimoColectivo = NULL;
 	protected $ultimoValorPagado = NULL;
@@ -159,7 +159,9 @@ class Tarjeta implements TarjetaInterface {
             return $valorBoleto;
 		}
 		
-        if(((date('N',$this->tiempo->time())<=5 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<22) || (date('N',$this->tiempo->time())==6 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<14)) && (!$this->feriado())){
+		if(((date('N',$this->tiempo->time())<=5 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<22) 
+		|| (date('N',$this->tiempo->time())==6 && date('G',$this->tiempo->time())>6 && date('G',$this->tiempo->time())<14))
+		 && (!$this->feriado())){
             if(($this->tiempo->time() - $this->horaUltimoViaje) < 3600){
                 return ($valorBoleto*0.33);
             }
@@ -191,6 +193,10 @@ class Tarjeta implements TarjetaInterface {
             '25-12',  //  Navidad
             );
         return in_array($fecha,$feriados);
-    }
+	}
+	
+	public function obtenerTrasbordo(){
+		return $this->ultimoViajeFueTrasbordo;
+	}
 
 }
