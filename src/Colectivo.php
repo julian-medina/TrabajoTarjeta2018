@@ -39,7 +39,7 @@ class Colectivo implements ColectivoInterface {
      */
     public function pagarCon(TarjetaInterface $tarjeta){
 
-        if($tarjeta->pagoBoleto()){
+        if($tarjeta->pagoBoleto($this->linea)){
 
             $valor = $tarjeta->obtenerValorBoletoUtilizado();
             $fecha = date("d/m/y H:i", time());

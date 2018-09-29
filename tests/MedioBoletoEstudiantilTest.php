@@ -35,8 +35,8 @@ class MedioBoletoEstudiantilTest extends TestCase {
         $numero = 2;
         $colectivo = new Colectivo($linea, $empresa, $numero);
         $valor = $tarjeta->valorBoleto();
-        $boletoPrimerPlus = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
-        $boletoUltimoPlus = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
+        $boletoPrimerPlus = new Boleto(0.0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -1);
+        $boletoUltimoPlus = new Boleto(0.0, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo(), $tarjeta->obtenerId(), -2);
     
 
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boletoPrimerPlus); //pagar sin saldo, el boleto es de un plus
@@ -96,5 +96,29 @@ class MedioBoletoEstudiantilTest extends TestCase {
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
     }
 
+    public function testTrasbordoEnMedioBoletoEstudiantil() {
+        $tiempo = new TiempoFalso();
+        $tarjeta = new MedioBoletoEstudiantil($tiempo, "123456");
+        $linea = "144 N";
+        $empresa = 'Auckland'; 
+        $numero = 2;
+        $colectivo = new Colectivo($linea, $empresa, $numero);
+        $colectivo2 = new Colectivo("133 V", "Rolo", "31");
+        $valor = $tarjeta->valorBoleto();
+        $tiempo->avanzar(300); //avanzo el tiempo al principio para que no se guarde NULL (0) en la ult fecha pagada 
+        $tarjeta->recargar(100);
+        $boleto = new Boleto($valor, $colectivo, $tarjeta, date("d/m/y H:i", time()), get_class($tarjeta), $tarjeta->obtenerSaldo()-$valor, $tarjeta->obtenerId(), 0);
+        $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
+
+        $this->assertNotEquals($tiempo->time(), NULL);
+        /* no se puede pagar si no pasaron 5 minutos */
+        $this->assertFalse($tarjeta->tiempoDeEsperaCumplido());
+        $this->assertFalse($colectivo->pagarCon($tarjeta));
+
+        /* se puede pagar el trasbordo luego de 50 min */
+        $tiempo->avanzar(3000);
+        $boleto = $colectivo2->pagarCon($tarjeta);
+        $this->assertEquals("TRASBORDO", $boleto->obtenerTipoBoleto());
+    }
 
 }
