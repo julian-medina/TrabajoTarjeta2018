@@ -110,11 +110,11 @@ class Tarjeta implements TarjetaInterface {
 		}
 
 	}
-	/* tiene que asignar $horaUltimoViaje y $ultimoColectivo */
 	public function pagarBoleto($valorBoleto){
 		$this->saldo -= $valorBoleto;
 	}
-
+	
+	/* tiene que asignar $horaUltimoViaje y $ultimoColectivo */
 	public function pagoBoleto($linea) {
 
 		$valorBoleto = $this->calcularValorBoleto($linea);
