@@ -10,21 +10,21 @@ class Colectivo implements ColectivoInterface {
 
     protected $numero;
 
-    public function __construct($linea, $empresa, $numero){
+    public function __construct($linea, $empresa, $numero) {
         $this->linea = $linea;
         $this->empresa = $empresa;
         $this->numero = $numero;
     }
     
-    public function linea(){
+    public function linea() {
         return $this->linea;
     }
 
-    public function empresa(){
+    public function empresa() {
         return $this->empresa;
     }
 
-    public function numero(){
+    public function numero() {
         return $this->numero;
     }
 
@@ -37,9 +37,9 @@ class Colectivo implements ColectivoInterface {
      *  El boleto generado por el pago del viaje. O FALSE si no hay saldo
      *  suficiente en la tarjeta.
      */
-    public function pagarCon(TarjetaInterface $tarjeta){
+    public function pagarCon(TarjetaInterface $tarjeta) {
 
-        if($tarjeta->pagoBoleto($this->linea)){
+        if ($tarjeta->pagoBoleto($this->linea)) {
 
             $valor = $tarjeta->obtenerValorBoletoUtilizado();
             $fecha = date("d/m/y H:i", time());

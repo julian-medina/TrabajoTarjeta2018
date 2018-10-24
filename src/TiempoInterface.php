@@ -2,7 +2,7 @@
 
 namespace TrabajoTarjeta;
 
-interface TiempoInterface{
+interface TiempoInterface {
     
     public function time();
 }

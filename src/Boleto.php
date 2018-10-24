@@ -33,23 +33,23 @@ class Boleto implements BoletoInterface {
     }
 
     //asigna el tipo de boleto (Normal, Viaje Plus) o si se abonaron Viajes Plus
-    public function mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta){
+    public function mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta) {
         
-        if($tarjeta->obtenerTrasbordo())
+        if ($tarjeta->obtenerTrasbordo())
             return "TRASBORDO";
 
-        if($viajesPlusAbonados>0){
+        if ($viajesPlusAbonados > 0) {
             $valorPlus = $viajesPlusAbonados*$tarjeta->valorBoletoCompleto();
             $totalAbonado = $valorPlus + $this->valor;
             
-            return "ABONA VIAJES PLUS: $".$valorPlus."\nTOTAL ABONADO: $".$totalAbonado;
+            return "ABONA VIAJES PLUS: $" . $valorPlus . "\nTOTAL ABONADO: $" . $totalAbonado;
         }
 
-        if($viajesPlusAbonados==0){
+        if ($viajesPlusAbonados == 0) {
             return "NORMAL";
         }
 
-        if($viajesPlusAbonados==-1){
+        if ($viajesPlusAbonados == -1) {
             return "VIAJE PLUS";
         }
 
