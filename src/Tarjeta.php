@@ -23,32 +23,23 @@ class Tarjeta implements TarjetaInterface {
 
 		if ($monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100) {
 			$this->saldo += $monto;
+			$this->pagarValorViajesPlus();
+			return true;
 		}
 
-		if($monto == 510.15)
+		if($monto == 510.15){
 			$this->saldo += $monto + 81.93;
+			$this->pagarValorViajesPlus();
+			return true;
+		}
 
-		if($monto == 962.59)
+		if($monto == 962.59){
 			$this->saldo += $monto + 221.58;
-
-	    
-		if($this->viajesPlus == 0){
-			if($this->saldo >= $this->valor){
-				$this->saldo -= $this->valor;
-				$this->viajesPlus = 1;
-				$this->viajesPlusAbonados += 1;
-			}
+			$this->pagarValorViajesPlus();
+			return true;
 		}
 
-		if($this->viajesPlus == 1){
-			if($this->saldo >= $this->valor){
-				$this->saldo -= $this->valor;
-				$this->viajesPlus = 2;
-				$this->viajesPlusAbonados += 1;
-			}
-		}
-
-      	return $monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100 || $monto == 510.15 || $monto == 962.59;
+      	return false;
 	}
 	
     /**
@@ -100,6 +91,25 @@ class Tarjeta implements TarjetaInterface {
 		return $this->valor;
 	}
 	
+	public function pagarValorViajesPlus(){
+		
+		if($this->viajesPlus == 0){
+			if($this->saldo >= $this->valor){
+				$this->saldo -= $this->valor;
+				$this->viajesPlus = 1;
+				$this->viajesPlusAbonados += 1;
+			}
+		}
+
+		if($this->viajesPlus == 1){
+			if($this->saldo >= $this->valor){
+				$this->saldo -= $this->valor;
+				$this->viajesPlus = 2;
+				$this->viajesPlusAbonados += 1;
+			}
+		}
+
+	}
 	/* tiene que asignar $horaUltimoViaje y $ultimoColectivo */
 	public function pagarBoleto($valorBoleto){
 		$this->saldo -= $valorBoleto;
