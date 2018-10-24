@@ -3,14 +3,14 @@
 namespace TrabajoTarjeta;
 
 /* agregamos aca implements TarjetaInterface ?? */
-class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
+class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
    
 	protected $tiempoDeEspera = 300; //5 minutos
     
 	protected $mediosUsados = 0;
 
-	public function valorBoleto(){
-		if($this->medioDisponible()){
+	public function valorBoleto() {
+		if ($this->medioDisponible()) {
 			return $this->valor/2;
 		}
 
@@ -20,12 +20,12 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface{
 /* si pasaron 5 minutos, no se puede pagar con el medio boleto. 
 si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 	public function pagoBoleto($linea) {
-		if($this->medioDisponible()){
-			if($this->horaUltimoViaje == NULL || $this->tiempoDeEsperaCumplido()){
+		if ($this->medioDisponible()) {
+			if ($this->horaUltimoViaje == NULL || $this->tiempoDeEsperaCumplido()) {
 
 				$valorBoleto = $this->calcularValorBoleto($linea);
 
-				if($this->obtenerSaldo() >= $valorBoleto){
+				if ($this->obtenerSaldo() >= $valorBoleto) {
 					$this->pagarBoleto($valorBoleto);
 
 					$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
@@ -33,7 +33,7 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 					$this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
 					$this->ultimoViajeFueTrasbordo = FALSE;
 
-					if($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+					if ($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
 						$this->ultimoViajeFueTrasbordo = TRUE;
 					
 					$this->mediosUsados++;
@@ -47,14 +47,14 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 		}
 
 		$valorBoleto = $this->calcularValorBoleto($linea);
-		if($this->obtenerSaldo() >= $valorBoleto){
+		if ($this->obtenerSaldo() >= $valorBoleto) {
 			$this->pagarBoleto($valorBoleto);
 			$this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
             $this->ultimoColectivo = $linea;
 			$this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
 			$this->ultimoViajeFueTrasbordo = FALSE;
 
-			if($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+			if ($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
 				$this->ultimoViajeFueTrasbordo = TRUE;
 
 			return TRUE;
@@ -63,26 +63,26 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 
 	}
 
-	public function pagarBoleto($valorBoleto){
+	public function pagarBoleto($valorBoleto) {
 		$this->saldo -= $valorBoleto;
 	}
 
-	public function tiempoDeEsperaCumplido(){
+	public function tiempoDeEsperaCumplido() {
 
 		$fechaActual = $this->tiempo->time();
 		$diferenciaDeFechas = $fechaActual - $this->horaUltimoViaje;
 		
-        if($diferenciaDeFechas >= $this->obtenerTiempoDeEspera())
+        if ($diferenciaDeFechas >= $this->obtenerTiempoDeEspera())
             return TRUE;
         
         return FALSE;
 	}
 
-	public function medioDisponible(){
-		if($this->mediosUsados < 2)
+	public function medioDisponible() {
+		if ($this->mediosUsados < 2)
 			return TRUE;
 		
-		if($this->tiempoDeEsperaUltimoMedioCumplido()){
+		if ($this->tiempoDeEsperaUltimoMedioCumplido()) {
 		  $this->mediosUsados = 0;
 		  return TRUE;
 		}
@@ -90,18 +90,18 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 		return FALSE;
   	}
 
-	public function tiempoDeEsperaUltimoMedioCumplido(){
+	public function tiempoDeEsperaUltimoMedioCumplido() {
         
         $ultimaFechaPagada = date("d/m/y", $this->horaUltimoViaje);
         $fechaActual = date("d/m/y", $this->tiempo->time());
             
-        if($ultimaFechaPagada < $fechaActual){
+        if ($ultimaFechaPagada < $fechaActual) {
              return TRUE;
         }
         return FALSE;
 	}
 	
-	public function obtenerTiempoDeEspera(){
+	public function obtenerTiempoDeEspera() {
 		return $this->tiempoDeEspera;
 	}
 
