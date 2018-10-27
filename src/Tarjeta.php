@@ -24,22 +24,22 @@ class Tarjeta implements TarjetaInterface {
     if ($monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100) {
       $this->saldo += $monto;
       $this->pagarValorViajesPlus();
-      return true;
+      return TRUE;
     }
 
     if ($monto == 510.15) {
       $this->saldo += $monto + 81.93;
       $this->pagarValorViajesPlus();
-      return true;
+      return TRUE;
     }
 
     if ($monto == 962.59) {
       $this->saldo += $monto + 221.58;
       $this->pagarValorViajesPlus();
-      return true;
+      return TRUE;
     }
 
-        return false;
+        return FALSE;
   }
 	
     /**
@@ -68,8 +68,9 @@ class Tarjeta implements TarjetaInterface {
   }
 	
   public function reiniciarViajesPlusAbonados() {
-    if ($this->viajesPlusAbonados != 0)
-      $this->viajesPlusAbonados = 0;
+    if ($this->viajesPlusAbonados != 0) {
+          $this->viajesPlusAbonados = 0;
+    }
   }
 
   public function primerPlusUsado() {
@@ -125,8 +126,10 @@ class Tarjeta implements TarjetaInterface {
       $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
       $this->ultimoViajeFueTrasbordo = FALSE;
 
-      if ($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+      if ($valorBoleto == $this->valorBoleto()*0.33) {
+        //guarda que se uso el trasbordo en la ultima vez.
         $this->ultimoViajeFueTrasbordo = TRUE;
+      }
 
       return TRUE;
     }
