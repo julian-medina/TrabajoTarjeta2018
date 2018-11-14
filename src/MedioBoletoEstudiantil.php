@@ -2,7 +2,6 @@
 
 namespace TrabajoTarjeta;
 
-/* agregamos aca implements TarjetaInterface ?? */
 class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface {
    
   protected $tiempoDeEspera = 300; //5 minutos
@@ -13,7 +12,7 @@ class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface {
     return $this->valor/2;
   }
 
-/* si no pasaron 5 minutos, no se puede pagar con el medio voleto. */
+/* si no pasaron 5 minutos, no se puede pagar con el medio boleto. */
   public function pagoBoleto($linea) {
     if ($this->ultimaFechaPagada == NULL || $this->tiempoDeEsperaCumplido()) {
 
