@@ -9,17 +9,21 @@ class Colectivo implements ColectivoInterface {
     protected $empresa;
 
     protected $numero;
-
+ 
     public function __construct($linea, $empresa, $numero) {
         $this->linea = $linea;
         $this->empresa = $empresa;
         $this->numero = $numero;
     }
-    
+   /**
+    *Devuelve la línea del colectivo
+    *
+    *@return int
+    */
     public function linea() {
         return $this->linea;
     }
-
+    
     public function empresa() {
         return $this->empresa;
     }
