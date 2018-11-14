@@ -2,7 +2,7 @@
 
 namespace TrabajoTarjeta;
 
-/* agregamos aca implements TarjetaInterface ?? */
+
 class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
    
   protected $tiempoDeEspera = 300; //5 minutos
@@ -28,12 +28,12 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
         if ($this->obtenerSaldo() >= $valorBoleto) {
           $this->pagarBoleto($valorBoleto);
 
-          $this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
+          $this->ultimoValorPagado = $valorBoleto; //Se guarda cuánto pagó
           $this->ultimoColectivo = $linea;
-          $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
+          $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transacción
           $this->ultimoViajeFueTrasbordo = FALSE;
 
-          if ($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+          if ($valorBoleto == $this->valorBoleto()*0.33) //guarda que se usó el trasbordo en el último viaje.
             $this->ultimoViajeFueTrasbordo = TRUE;
 					
           $this->mediosUsados++;
@@ -49,12 +49,12 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
     $valorBoleto = $this->calcularValorBoleto($linea);
     if ($this->obtenerSaldo() >= $valorBoleto) {
       $this->pagarBoleto($valorBoleto);
-      $this->ultimoValorPagado = $valorBoleto; //Se guarda cuento pago
+      $this->ultimoValorPagado = $valorBoleto; //Se guarda cuánto pagó
             $this->ultimoColectivo = $linea;
-      $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transaccion
+      $this->horaUltimoViaje = $this->tiempo->time(); //Se guarda la hora de la transacción
       $this->ultimoViajeFueTrasbordo = FALSE;
 
-      if ($valorBoleto == $this->valorBoleto()*0.33) //guarda que se uso el trasbordo en la ultima vez.
+      if ($valorBoleto == $this->valorBoleto()*0.33) //guarda que se usó el trasbordo en la último viaje.
         $this->ultimoViajeFueTrasbordo = TRUE;
 
       return TRUE;
@@ -62,7 +62,11 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
     return $this->pagoBoletoConPlus($linea);
 
   }
-
+	
+ /**
+  *resta el precio del boleto al saldo
+  *(paga un boleto)
+  */
   public function pagarBoleto($valorBoleto) {
     $this->saldo -= $valorBoleto;
   }
@@ -78,6 +82,9 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
         return FALSE;
   }
 
+/**
+ *Devuelve un bool que representa la disponibilidad del medio boleto
+ */
   public function medioDisponible() {
     if ($this->mediosUsados < 2)
       return TRUE;
@@ -90,6 +97,10 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
     return FALSE;
     }
 
+ /**
+  *Comprueba que el tiempo necesario para volver a 
+  *usar el medio boleto haya transcurrido
+  */
   public function tiempoDeEsperaUltimoMedioCumplido() {
         
         $ultimaFechaPagada = date("d/m/y", $this->horaUltimoViaje);
