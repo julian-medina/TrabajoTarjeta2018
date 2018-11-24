@@ -21,7 +21,7 @@ class Tiempo implements TiempoInterface {
     );
     
     /**
-     * Devuelve la fecha actual, en segundos.
+     * Devuelve el dia actual, en segundos.
      *
      * @return int
      */
@@ -31,15 +31,15 @@ class Tiempo implements TiempoInterface {
 
 
     /**
-    * Devuelve si una fecha actual es o no feriado.
+    * Devuelve si el dia actual es o no feriado.
     * 
     * @return bool
-    *    TRUE si la fecha actual es un feriado o FALSE en su defecto.
+    *    TRUE si el dia actual es un feriado o FALSE en su defecto.
     */
     public function feriado() {
-        $fecha = date('d-m', $this->time());
+        $dia = date('d-m', $this->time());
         $feriados = $this->listaFeriado();
-        return in_array($fecha, $feriados);
+        return in_array($dia, $feriados);
     }
 
     /**
@@ -53,19 +53,19 @@ class Tiempo implements TiempoInterface {
     }
 
     /**
-    * Agrega una fecha a la lista de feriados que hay registrados
+    * Agrega el dia a la lista de feriados que hay registrados
     * 
     */
-    public function agregarFeriado($fecha) {
-        if (!in_array($fecha, $this->listaFeriado()))
-            $this->listaFeriados[] = $fecha;
+    public function agregarFeriado($dia) {
+        if (!in_array($dia, $this->listaFeriado()))
+            $this->listaFeriados[] = $dia;
     }
-    
+
     /**
-    * Quita una fecha a la lista de feriados que hay registrados
+    * Quita el dia a la lista de feriados que hay registrados
     * 
     */
-    public function eliminarFeriado($fecha) {
-        $this->listaFeriados = array_diff($this->listaFeriado(), [$fecha]);
+    public function eliminarFeriado($dia) {
+        $this->listaFeriados = array_diff($this->listaFeriado(), [$dia]);
     }
 }

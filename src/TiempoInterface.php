@@ -25,10 +25,10 @@ interface TiempoInterface {
     /**
     * Agrega una fecha a la lista de feriados que hay registrados
     */
-      public function agregarFeriado($fecha);
+      public function agregarFeriado($dia);
 
     /**
     * Quita una fecha a la lista de feriados que hay registrados
     */
-    public function eliminarFeriado($fecha);
+    public function eliminarFeriado($dia);
 }
