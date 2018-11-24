@@ -19,6 +19,12 @@ class Tarjeta implements TarjetaInterface {
     $this->id = $id;
     }
 
+   /**
+    * Recarga la tarjeta usando el monto y chequeando si aplica para algún recargo extra.
+    * Abona los viajes plus, si los hubiera, usados en la tarjeta.
+    *
+    * @param monto
+    */
     public function recargar($monto) {
 
     if ($monto == 10 || $monto == 20 || $monto == 30 || $monto == 50 || $monto == 100) {
@@ -51,47 +57,86 @@ class Tarjeta implements TarjetaInterface {
         return $this->saldo;
   }
 
+   /**
+    * Devuleve el valor del último boleto pagado.
+    *
+    * @return float
+    */
   public function obtenerValorBoletoUtilizado() {
     return $this->ultimoValorPagado;
     }
 
+   /**
+    * Devuelve la id de la tarjeta.
+    *
+    * @return int
+    */
   public function obtenerId() {
     return $this->id;
   }
-	
+   /**
+    * Devuelve la cantidad de viajes plus disponibles.
+    *
+    * @return int
+    */
   public function obtenerViajesPlus() {
     return $this->viajesPlus;
   }
-
+	
+   /**
+    * Devuelve la cantidad de viajes plus pagados (en casos de pagar viajes plus).
+    */
   public function obtenerViajesPlusAbonados() {
     return $this->viajesPlusAbonados;
   }
-	
+
+   /**
+    * Resetea la cantidad de viajes plus pagados a un valor estándar de 0.
+    */
   public function reiniciarViajesPlusAbonados() {
     if ($this->viajesPlusAbonados != 0) {
           $this->viajesPlusAbonados = 0;
     }
   }
-
+	
+   /**
+    * Setea el valor de los viajes plus pagados para el caso de haber usado sólo uno de ellos.
+    */
   public function primerPlusUsado() {
     $this->viajesPlusAbonados = -1;
   }
 
+   /**
+    * Setea el valor de los viajes plus pagados para el caso de haber usado ambos.
+    */
   public function ultimoPlusUsado() {
     $this->viajesPlusAbonados = -2;
   }
-
+	
+   /**
+    * Paga con viaje plus.
+    */
   public function pagarViajesPlus() {
     $this->viajesPlus -= 1;
   }
+
+   /**
+    * Devuelve el valor de un boleto pagado.
+    *
+    *@return int
+    */
   public function valorBoleto() {
     return $this->valor;
   }
-	
+
+
   public function valorBoletoCompleto() {
     return $this->valor;
   }
-	
+
+   /**
+    * Maneja el pago de los viajes plus usados para cada caso.
+    */
   public function pagarValorViajesPlus() {
 		
     if ($this->viajesPlus == 0) {
@@ -136,7 +181,12 @@ class Tarjeta implements TarjetaInterface {
 
     return $this->pagoBoletoConPlus($linea);
   }
-
+	
+   /**
+    * Maneja el uso de un viaje plus para el pago de un boleto, teniendo en cuenta la línea, momento y monto de la transacción.
+    *
+    * @param linea
+    */
   public function pagoBoletoConPlus($linea) {
 
     if ($this->obtenerViajesPlus() == 2) {
@@ -162,6 +212,9 @@ class Tarjeta implements TarjetaInterface {
     return FALSE;
   }
 
+   /**
+    * 
+    */
   public function calcularValorBoleto($linea) {
         return $this->trasbordo($linea, $this->valorBoleto());
   }
