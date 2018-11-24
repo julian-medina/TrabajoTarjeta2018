@@ -20,7 +20,7 @@ class Boleto implements BoletoInterface {
 
     //tipo de boleto (Normal, Viaje Plus)
     protected $tipoBoleto;
-
+    
     public function __construct($valor, $colectivo, $tarjeta, $fecha, $tipoTarjeta, $saldo, $id, $viajesPlusAbonados) {
         $this->valor = $valor;
         $this->colectivo = $colectivo;
@@ -67,34 +67,57 @@ class Boleto implements BoletoInterface {
     }
 
     /**
-     * Devuelve un objeto que respresenta el colectivo donde se viajó.
+     * Devuelve un objeto que representa el colectivo donde se viajó.
      *
      * @return ColectivoInterface
      */
     public function obtenerColectivo() {
         return $this->colectivo;
     }
-
+    
+    /**
+     * Devuelve la línea del colectivo
+     *
+     * @return int
+     */
     public function obtenerLineaColectivo() {
         return $this->colectivo->linea();
     }
-
+    
+    /**
+     * Devuelve la fecha.
+     */
     public function obtenerFecha() {
         return $this->fecha;
     }
 
+    /**
+     * Devuelve el tipo de la tarjeta.
+     */
     public function obtenerTipoTarjeta() {
         return $this->tipoTarjeta;
     }
-
+    /**
+     * Devuelve el saldo de la tarjeta
+     *
+     * @return int
+     */
     public function obtenerSaldo() {
         return $this->saldo;
     }
 
+    /**
+     * Devuelve la id del boleto
+     *
+     * @return int
+     */
     public function obtenerId() {
         return $this->id;
     }
-
+    
+    /**
+     * Devuelve el tipo del boleto.
+     */
     public function obtenerTipoBoleto() {
         return $this->tipoBoleto;
     }
