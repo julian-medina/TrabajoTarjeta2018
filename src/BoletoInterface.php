@@ -18,6 +18,9 @@ interface BoletoInterface {
      */
     public function obtenerColectivo();
 
-    public function obtenerTipoBoleto();
+    /**
+     * Devuelve el tipo del boleto.
+     */
+    public function obtenereTipoBoleto();
 
 }
