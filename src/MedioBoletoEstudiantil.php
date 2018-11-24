@@ -34,14 +34,24 @@ class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface {
 
     return FALSE;
   }
-
+    /**
+     * Paga un boleto, actualiza el momento de la operación.
+     *
+     * @param float $valor
+     *
+     * @return void
+     */
   public function pagarBoleto($valorBoleto) {
 
     $this->saldo -= $valorBoleto;
     $tiempoNuevo = $this->tiempo->time();
     $this->ultimaFechaPagada = $tiempoNuevo;
   }
-
+    /**
+     * Chequea si el tiempo entre usos del medio boleto ya pasó.
+     * 
+     * @return void
+     */
   public function tiempoDeEsperaCumplido() {
 
         $ultimaFechaPagada = $this->obtenerUltimaFechaPagada();
@@ -55,11 +65,12 @@ class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface {
         return FALSE;
   }
 
-
+  // Obtiene el tiempo de espera entre usos del medio boleto.
   public function obtenerTiempoDeEspera() {
     return $this->tiempoDeEspera;
   }
 
+  // Devuelve el último momento de uso del medio boleto.
   public function obtenerUltimaFechaPagada() {
     return $this->ultimaFechaPagada;
   }
