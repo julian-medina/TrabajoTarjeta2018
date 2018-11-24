@@ -21,6 +21,6 @@ interface BoletoInterface {
     /**
      * Devuelve el tipo del boleto.
      */
-    public function obtenereTipoBoleto();
+    public function obtenerTipoBoleto();
 
 }
