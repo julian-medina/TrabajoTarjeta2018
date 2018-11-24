@@ -24,10 +24,16 @@ class Colectivo implements ColectivoInterface {
         return $this->linea;
     }
     
+    /**
+    *Devuelve la empresa del colectivo
+    */
     public function empresa() {
         return $this->empresa;
     }
-
+    
+   /**
+    * Devuelve el número del colectivo
+    */
     public function numero() {
         return $this->numero;
     }
