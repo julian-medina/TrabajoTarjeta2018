@@ -9,6 +9,7 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
     
   protected $mediosUsados = 0;
 
+  //Devuelve el valor del boleto, teniendo en consideración la posibilidad del medio boleto.
   public function valorBoleto() {
     if ($this->medioDisponible()) {
       return $this->valor/2;
@@ -71,6 +72,10 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
     $this->saldo -= $valorBoleto;
   }
 
+ /** Chequea si el tiempo de espera necesario entre usos del boleto se cumplió o no.
+  *
+  *  @return void
+  */
   public function tiempoDeEsperaCumplido() {
 
     $fechaActual = $this->tiempo->time();
@@ -111,7 +116,7 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
         }
         return FALSE;
   }
-	
+  // Devuelve el tiempo de espera entre usos del medio boleto.
   public function obtenerTiempoDeEspera() {
     return $this->tiempoDeEspera;
   }
