@@ -111,12 +111,17 @@ class MedioBoletoEstudiantilTest extends TestCase {
         $this->assertEquals($colectivo->pagarCon($tarjeta), $boleto);
 
         $this->assertNotEquals($tiempo->time(), NULL);
+
         /* no se puede pagar si no pasaron 5 minutos */
         $this->assertFalse($tarjeta->tiempoDeEsperaCumplido());
         $this->assertFalse($colectivo->pagarCon($tarjeta));
 
-        /* se puede pagar el trasbordo luego de 50 min */
+        /* No se puede mas de un trasbordo en el mismo colectivo */
         $tiempo->avanzar(3000);
+        $this->assertNotEquals($colectivo->pagarCon($tarjeta)->obtenerTipoBoleto(), "TRASBORDO");
+
+        /* se puede pagar el trasbordo luego de 5 min */
+        $tiempo->avanzar(300);
         $boleto = $colectivo2->pagarCon($tarjeta);
         $this->assertEquals("TRASBORDO", $boleto->obtenerTipoBoleto());
     }

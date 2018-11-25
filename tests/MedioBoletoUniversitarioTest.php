@@ -117,7 +117,7 @@ class MedioBoletoUniversitarioTest extends TestCase {
         $colectivo1 = new Colectivo(122, "Semtur", 37);
         $colectivo2 = new Colectivo(134, "RosarioBus", 52);
         /*
-        Pruebo pagar un trasbordo un dia feriado con 90 minutos de espera y el texto del boleto
+        *Pruebo pagar un trasbordo un dia feriado con 90 minutos de espera y el texto del boleto
         */
         $boleto = $colectivo1->pagarCon($tarjeta); //boleto medio universitario
         $this->assertEquals($tarjeta->obtenerSaldo(), 192.6);
@@ -141,4 +141,5 @@ class MedioBoletoUniversitarioTest extends TestCase {
         $this->assertEquals($boleto2->obtenerTipoBoleto(), "TRASBORDO"); //pago trasbordo normal
         $this->assertEquals($tarjeta->obtenerSaldo(), 160.632);
     }
+
 }
