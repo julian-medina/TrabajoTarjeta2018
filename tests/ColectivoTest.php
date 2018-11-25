@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ColectivoTest extends TestCase {
 
-/* Comprueba que se puede pagar si la tarjeta tiene saldo */
+/* Comprueba que se puede pagar si la tarjeta tiene saldo, y sin saldo usa un viaje plus. */
 
     public function testPagarConTarjeta() {
         $tiempo = new TiempoFalso();
@@ -26,6 +26,11 @@ class ColectivoTest extends TestCase {
         $this->assertEquals($tarjeta->obtenerSaldo(), 20.0-$valor);
 
         $this->assertEquals($tarjeta->obtenerViajesPlus(), 2);
+
+        //sin saldo
+        $colectivo->pagarCon($tarjeta);
+        $this->assertEquals($tarjeta->obtenerViajesPlus(), 1);
+
 
         //test de las funciones en clase colectivo
         $this->assertEquals($colectivo->linea(), $linea);
