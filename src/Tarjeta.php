@@ -22,8 +22,11 @@ class Tarjeta implements TarjetaInterface {
    /**
     * Recarga la tarjeta usando el monto y chequeando si aplica para algún recargo extra.
     * Abona los viajes plus, si los hubiera, usados en la tarjeta.
+    * Si el monto a recargar no es apropiado, devuelve FALSE. En otro caso, devuelve TRUE.
     *
     * @param monto
+    *
+    * @return int
     */
     public function recargar($monto) {
 
