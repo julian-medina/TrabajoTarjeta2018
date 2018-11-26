@@ -32,7 +32,13 @@ class Boleto implements BoletoInterface {
         $this->tipoBoleto = $this->mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta);
     }
 
-    //asigna el tipo de boleto (Normal, Viaje Plus) o si se abonaron Viajes Plus
+     /**
+      *  Asigna el tipo de boleto (Normal, Viaje Plus) o si se abonaron Viajes Plus
+      *
+      * @param int $viajesPlusAbonados
+      * @param Tarjeta $tarjeta
+      * @return string
+      */
     public function mostrarViajePlusEnBoleto($viajesPlusAbonados, $tarjeta) {
         
         if ($tarjeta->obtenerTrasbordo()) {
