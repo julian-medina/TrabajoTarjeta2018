@@ -84,10 +84,12 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
     $fechaActual = $this->tiempo->time();
     $diferenciaDeFechas = $fechaActual - $this->horaUltimoViaje;
 		
-        if ($diferenciaDeFechas >= $this->obtenerTiempoDeEspera())
+        if ($diferenciaDeFechas >= $this->obtenerTiempoDeEspera()) {
             return TRUE;
-        
-        return FALSE;
+	}
+        else {
+       	    return FALSE;
+	}
   }
 
 /**
