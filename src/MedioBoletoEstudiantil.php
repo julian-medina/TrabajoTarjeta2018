@@ -5,8 +5,11 @@ namespace TrabajoTarjeta;
 class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface {
    
   protected $tiempoDeEspera = 300; //5 minutos
-    
+  protected $ultimoValorPagado = 0;
   protected $ultimaFechaPagada = NULL;
+  protected $ultimoColectivo = NULL;
+  protected $horaUltimoViaje = NULL;
+  protected $ultimoViajeFueTrasbordo = FALSE;
 	
   public function valorBoleto() {
     return $this->valor/2;
@@ -50,7 +53,7 @@ class MedioBoletoEstudiantil extends Tarjeta implements TarjetaInterface {
     /**
      * Chequea si el tiempo entre usos del medio boleto ya pasó.
      * 
-     * @return void
+     * @return bool
      */
   public function tiempoDeEsperaCumplido() {
 
