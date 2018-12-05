@@ -6,9 +6,12 @@ namespace TrabajoTarjeta;
 class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
    
   protected $tiempoDeEspera = 300; //5 minutos
-    
-  protected $mediosUsados = 0;
-
+  protected $ultimoValorPagado = 0;
+  protected $ultimaFechaPagada = NULL;
+  protected $ultimoColectivo = NULL;
+  protected $horaUltimoViaje = NULL;
+  protected $ultimoViajeFueTrasbordo = FALSE;
+	
   //Devuelve el valor del boleto, teniendo en consideración la posibilidad del medio boleto.
   public function valorBoleto() {
     if ($this->medioDisponible()) {
@@ -74,7 +77,7 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
 
  /** Chequea si el tiempo de espera necesario entre usos del boleto se cumplió o no.
   *
-  *  @return void
+  *  @return bool
   */
   public function tiempoDeEsperaCumplido() {
 
@@ -88,7 +91,9 @@ si ya se usaron los 2 medios diarios, se paga el valor completo.*/
   }
 
 /**
- *Devuelve un bool que representa la disponibilidad del medio boleto
+ * Devuelve un bool que representa la disponibilidad del medio boleto
+ *
+ * @return bool
  */
   public function medioDisponible() {
     if ($this->mediosUsados < 2)
