@@ -247,7 +247,7 @@ class Tarjeta implements TarjetaInterface {
 		return TRUE;
 	else
 	{
-		return FALSE
+		return FALSE;
 	}
   }
 
