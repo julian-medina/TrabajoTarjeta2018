@@ -11,6 +11,7 @@ class MedioBoletoUniversitario extends Tarjeta implements TarjetaInterface {
   protected $ultimoColectivo = NULL;
   protected $horaUltimoViaje = NULL;
   protected $ultimoViajeFueTrasbordo = FALSE;
+  protected $mediosUsados = 0;
 	
   //Devuelve el valor del boleto, teniendo en consideración la posibilidad del medio boleto.
   public function valorBoleto() {
