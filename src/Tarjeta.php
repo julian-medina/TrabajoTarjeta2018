@@ -173,7 +173,11 @@ class Tarjeta implements TarjetaInterface {
     $this->saldo -= $valorBoleto;
   }
 	
-  /* tiene que asignar $horaUltimoViaje y $ultimoColectivo */
+  /** 
+  * tiene que asignar $horaUltimoViaje y $ultimoColectivo 
+  *
+  * @return bool
+  */
   public function pagoBoleto($linea) {
 
     $valorBoleto = $this->calcularValorBoleto($linea);
@@ -200,7 +204,7 @@ class Tarjeta implements TarjetaInterface {
     *
     * @param linea
     *
-    * @return void
+    * @return bool
     */
   public function pagoBoletoConPlus($linea) {
 
