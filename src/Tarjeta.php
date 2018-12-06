@@ -268,8 +268,7 @@ class Tarjeta implements TarjetaInterface {
           return $valorBoleto;
     }
       if ($this->horariosInhabilitados($this->tiempo) {
-      //hasta 60 minutos
-          if (($this->tiempo->time() - $this->horaUltimoViaje) < 3600) {
+          if (($this->tiempo->time() - $this->horaUltimoViaje) < 3600) { //hasta 60 minutos o una hora
               return ($valorBoleto*0.33);
           }
       } //en el resto de los casos, hasta 90 minutos para trasbordo
