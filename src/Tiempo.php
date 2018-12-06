@@ -21,7 +21,7 @@ class Tiempo implements TiempoInterface {
     );
     
     /**
-     * Devuelve el dia actual, en segundos.
+     * Devuelve el dia actual, en segundos desde el principio del calendario.
      *
      * @return int
      */
@@ -62,7 +62,7 @@ class Tiempo implements TiempoInterface {
     }
 
     /**
-    * Quita el dia a la lista de feriados que hay registrados
+    * Quita el dia de la lista de feriados que hay registrados
     * 
     */
     public function eliminarFeriado($dia) {
