@@ -26,7 +26,7 @@ class Tarjeta implements TarjetaInterface {
     *
     * @param monto
     *
-    * @return int
+    * @return bool
     */
     public function recargar($monto) {
 
@@ -88,6 +88,8 @@ class Tarjeta implements TarjetaInterface {
 	
    /**
     * Devuelve la cantidad de viajes plus pagados (en casos de pagar viajes plus).
+    *
+    * @return int
     */
   public function obtenerViajesPlusAbonados() {
     return $this->viajesPlusAbonados;
@@ -95,6 +97,8 @@ class Tarjeta implements TarjetaInterface {
 
    /**
     * Resetea la cantidad de viajes plus pagados a un valor estándar de 0.
+    *
+    * @return void
     */
   public function reiniciarViajesPlusAbonados() {
     if ($this->viajesPlusAbonados != 0) {
@@ -104,6 +108,8 @@ class Tarjeta implements TarjetaInterface {
 	
    /**
     * Setea el valor de los viajes plus pagados para el caso de haber usado sólo uno de ellos.
+    *
+    * @return void
     */
   public function primerPlusUsado() {
     $this->viajesPlusAbonados = -1;
@@ -111,6 +117,8 @@ class Tarjeta implements TarjetaInterface {
 
    /**
     * Setea el valor de los viajes plus pagados para el caso de haber usado ambos.
+    *
+    * @return void
     */
   public function ultimoPlusUsado() {
     $this->viajesPlusAbonados = -2;
@@ -118,6 +126,8 @@ class Tarjeta implements TarjetaInterface {
 	
    /**
     * Paga con viaje plus.
+    *
+    * @return void
     */
   public function pagarViajesPlus() {
     $this->viajesPlus -= 1;
@@ -126,7 +136,7 @@ class Tarjeta implements TarjetaInterface {
    /**
     * Devuelve el valor de un boleto pagado.
     *
-    *@return int
+    * @return float
     */
   public function valorBoleto() {
     return $this->valor;
@@ -189,6 +199,8 @@ class Tarjeta implements TarjetaInterface {
     * Maneja el uso de un viaje plus para el pago de un boleto, teniendo en cuenta la línea, momento y monto de la transacción.
     *
     * @param linea
+    *
+    * @return void
     */
   public function pagoBoletoConPlus($linea) {
 
@@ -219,19 +231,11 @@ class Tarjeta implements TarjetaInterface {
   * Devuelve el valor del boleto
   *
   * @param string $linea
-  * @return void
+  * @return float
   */
   public function calcularValorBoleto($linea) {
         return $this->trasbordo($linea, $this->valorBoleto());
   }
-  
-  /**
-   * Calcula el valor del boleto, ya sea trasbordo o el que le corresponda al tipo de tarjeta.
-   *
-   * @param string $linea
-   * @param int $valorBoleto
-   * @return int
-   */
 	
    /*
    * Revisa si el tiempo no es feriado, lunes a viernes de 6 a 22 o sábados de 6 a 14
@@ -251,6 +255,13 @@ class Tarjeta implements TarjetaInterface {
 	}
   }
 
+  /**
+   * Calcula el valor del boleto, ya sea trasbordo o el que le corresponda al tipo de tarjeta.
+   *
+   * @param string $linea
+   * @param int $valorBoleto
+   * @return int
+   */
   protected function trasbordo($linea, $valorBoleto) {
 
       if ($this->ultimoColectivo == $linea || $this->ultimoValorPagado == 0.0 || $this->ultimoViajeFueTrasbordo) {
