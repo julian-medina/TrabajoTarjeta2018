@@ -277,8 +277,6 @@ class Tarjeta implements TarjetaInterface {
               return ($valorBoleto*0.33);
           }
       }
-  }
-  
       return $valorBoleto;
   }
   
