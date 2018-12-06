@@ -267,7 +267,7 @@ class Tarjeta implements TarjetaInterface {
       if ($this->ultimoColectivo == $linea || $this->ultimoValorPagado == 0.0 || $this->ultimoViajeFueTrasbordo) {
           return $valorBoleto;
     }
-      if ($this->horariosInhabilitados($this->tiempo) {
+      if ($this->horariosInhabilitados($this->tiempo)) {
           if (($this->tiempo->time() - $this->horaUltimoViaje) < 3600) { //hasta 60 minutos o una hora
               return ($valorBoleto*0.33);
           }
